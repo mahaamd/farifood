@@ -19,7 +19,7 @@ public class Order {
     @Override
     public String toString() {
         String food = "";
-        for (Food f:foods) {
+        for (Food f : foods) {
             food += f.toString();
         }
         return food;

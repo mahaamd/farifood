@@ -34,7 +34,7 @@ public class PreStartTask {
                 break;
             case 2:
                 user = userValidation(new ArrayList<>(ferryFoodOnlineMenu.getManagers()));
-               //user = managerValidation(ferryFoodOnlineMenu.getManagers());
+                //user = managerValidation(ferryFoodOnlineMenu.getManagers());
                 break;
             case 3:
                 user = userValidation(new ArrayList<>(ferryFoodOnlineMenu.getCustomers()));
@@ -48,7 +48,7 @@ public class PreStartTask {
         if (user == null) {
             System.out.println("Try again");
             handleChoice();
-        }else {
+        } else {
             manageChoice(userChoice, user);
         }
     }
@@ -64,7 +64,7 @@ public class PreStartTask {
             case 3:
                 ferryFoodOnlineMenu.customerMenu((Customer) user);
                 break;
-            default:    
+            default:
         }
     }
 
@@ -111,18 +111,18 @@ public class PreStartTask {
 
     // }
 
-   public User userValidation(ArrayList<User> users) {
-       System.out.println("Enter UserName");
-       String userName = ScannerWrapper.getInstance().nextLine();
-       System.out.println("Enter PassWord");
-       String passWord = ScannerWrapper.getInstance().nextLine();
-       for (User user : users) {
-           if (user.getUserName().equals(userName) && user.getPassWord().equals(passWord)) {
-               return user;
-           }
-       }
-       return null;
-   }
+    public User userValidation(ArrayList<User> users) {
+        System.out.println("Enter UserName");
+        String userName = ScannerWrapper.getInstance().nextLine();
+        System.out.println("Enter PassWord");
+        String passWord = ScannerWrapper.getInstance().nextLine();
+        for (User user : users) {
+            if (user.getUserName().equals(userName) && user.getPassWord().equals(passWord)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
 
 }

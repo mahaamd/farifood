@@ -20,6 +20,7 @@ public class FerryFoodOnlineMenu {
     private ArrayList<Order> orders;
     private CustomersHelper customersHelper;
     private EditMenu editMenu;
+
     public FerryFoodOnlineMenu() {
 
     }

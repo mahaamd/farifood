@@ -19,17 +19,10 @@ public class Customer extends User {
         this.orders = orders;
     }
 
-    
-
 
 //    public Customer(String userName, String passWord) {
 //        super(userName, passWord);
 //    }
-
-
-
-
-
 
 
     public void addOrder(Order order) {

@@ -1,6 +1,6 @@
 package ir.ac.kntu.person;
 
-public class Admin extends User{
+public class Admin extends User {
 
 //    private String userName;
 //

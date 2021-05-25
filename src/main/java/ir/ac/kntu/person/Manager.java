@@ -4,7 +4,7 @@ import ir.ac.kntu.retaurant.Restaurant;
 
 public class Manager extends User {
 
-    Restaurant restaurant;
+    private Restaurant restaurant;
 
     public Manager(String userName, String passWord) {
         super(userName, passWord);

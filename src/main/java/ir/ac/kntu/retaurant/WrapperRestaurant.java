@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public class WrapperRestaurant {
 
-    EditMenu editMenu;
+    //EditMenu editMenu;
 
     public static void sortAscendingByScore(ArrayList<Restaurant> restaurants) {
         for (int i = 0; i < restaurants.size() - 1; i++) {
