@@ -2,17 +2,19 @@ package ir.ac.kntu;
 
 
 public class Time {
-    private int time;
-
+    private int hour;
 
     public Time(int time) {
-        this.time = time;
+        this.hour = time;
     }
 
+    public int getHour() {
+        return hour;
+    }
 
     @Override
     public String toString() {
-        return ""+ time;
+        return "" + hour;
     }
 }
 

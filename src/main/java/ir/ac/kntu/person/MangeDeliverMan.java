@@ -2,7 +2,7 @@ package ir.ac.kntu.person;
 
 import ir.ac.kntu.ScannerWrapper;
 import ir.ac.kntu.retaurant.Restaurant;
-import ir.ac.kntu.retaurant.WrapperRestaurant;
+import ir.ac.kntu.retaurant.ServiceBuildingWrapper;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -39,7 +39,7 @@ public class MangeDeliverMan {
         deliverMan.setComments(new ArrayList<>());
         System.out.println("***************" + "addRestaurant" + "***************");
         System.out.println("Choose 2 Restaurant For Your DeliverMan");
-        WrapperRestaurant.printRestaurant(restaurants);
+        ServiceBuildingWrapper.printRestaurant(new ArrayList<>(restaurants));
         System.out.print("Restaurant number One: ");
         int choice1 = ScannerWrapper.getInstance().nextInt();
         System.out.print("Restaurant Number Two: ");

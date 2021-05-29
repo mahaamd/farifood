@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Menu {
 
     private ArrayList<Food> foods;
+    //private ArrayList<Commodity> commodities;
 
     public Menu() {
         foods = new ArrayList<>();
@@ -18,12 +19,12 @@ public class Menu {
         this.foods = foods;
     }
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "foods=" + foods +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Menu{" +
+//                "foods=" + foods +
+//                '}';
+//    }
 
     public void setFoods(ArrayList<Food> foods) {
         this.foods = foods;

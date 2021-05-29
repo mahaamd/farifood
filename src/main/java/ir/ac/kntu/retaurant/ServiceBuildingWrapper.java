@@ -1,17 +1,18 @@
 package ir.ac.kntu.retaurant;
 
-import ir.ac.kntu.FerryFoodOnlineMenu;
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.ServiceBuilding;
 import ir.ac.kntu.Time;
 import ir.ac.kntu.food.Food;
 import ir.ac.kntu.food.Menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
-public class WrapperRestaurant {
+public class ServiceBuildingWrapper {
 
-    //EditMenu editMenu;
+    // EditMenu editMenu;
 
     public static void sortAscendingByScore(ArrayList<Restaurant> restaurants) {
         for (int i = 0; i < restaurants.size() - 1; i++) {
@@ -21,6 +22,7 @@ public class WrapperRestaurant {
                 }
             }
         }
+        // Collections.sort(restaurants, );
     }
 
     public static void sortDescendingByScore(ArrayList<Restaurant> restaurants) {
@@ -87,7 +89,7 @@ public class WrapperRestaurant {
         restaurant.getMenu().setFoods(foods);
     }
 
-    public static void printRestaurant(ArrayList<Restaurant> restaurants) {
+    public static void printRestaurant(ArrayList<? extends ServiceBuilding> restaurants) {
         for (int i = 0; i < restaurants.size(); i++) {
             if (restaurants.get(i).isStatus()) {
                 System.out.println(i + ": " + restaurants.get(i).getName());
@@ -111,7 +113,7 @@ public class WrapperRestaurant {
     public static void add(ArrayList<Restaurant> restaurants) {
         Time[] workTime = new Time[4];
         ArrayList<Food> foodNames = new ArrayList<>();
-        //Food food = new Food();
+        // Food food = new Food();
         System.out.println("Enter Restaurant Name");
         String name = ScannerWrapper.getInstance().nextLine();
         System.out.println("Enter Address");
@@ -134,15 +136,16 @@ public class WrapperRestaurant {
         workTime[1] = new Time(Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
         workTime[2] = new Time(Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
         workTime[3] = new Time(Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
-        Restaurant newOne = new Restaurant(true, name, address, new Menu(foodNames), new ArrayList<>(), new ArrayList<>());
+        Restaurant newOne = new Restaurant(true, name, address, new Menu(foodNames), new ArrayList<>(),
+                new ArrayList<>());
         newOne.setWorkHours(workTime);
         newOne.setOrders(new ArrayList<>());
         restaurants.add(newOne);
     }
 
     public static void update(ArrayList<Restaurant> restaurants) {
-        FerryFoodOnlineMenu foodOnlineMenu = new FerryFoodOnlineMenu();
-        printRestaurant(restaurants);
+        // FerryFoodOnlineMenu foodOnlineMenu = new FerryFoodOnlineMenu();
+        printRestaurant(new ArrayList<>(restaurants));
         System.out.println("Choose Your Restaurant");
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         System.out.println("Choose What To Do");
@@ -151,20 +154,24 @@ public class WrapperRestaurant {
         switch (options) {
             case 1:
                 editComment(restaurants.get(choice));
-                //foodOnlineMenu.manageOptions(restaurants);
+                // foodOnlineMenu.manageOptions(restaurants);
+                break;
             case 2:
                 restaurants.get(choice).editScore();
-                //foodOnlineMenu.manageOptions(restaurants);
+                break;
+            // foodOnlineMenu.manageOptions(restaurants);
             case 3:
-                //TODO: FIX THIS PART
+                // TODO: FIX THIS PART
                 restaurants.get(choice).getMenu().editFood();
-                //foodOnlineMenu.manageOptions(restaurants);
+                // foodOnlineMenu.manageOptions(restaurants);
+                break;
             case 4:
-                printRestaurant(restaurants);
-                Restaurant restaurant = chooseRestaurant(restaurants);
-                restaurant.editName();
+                // printRestaurant(restaurants);
+                // Restaurant restaurant = chooseRestaurant(restaurants);
+                restaurants.get(choice).editName();
+                break;
             case 5:
-                //foodOnlineMenu.manageOptions(restaurants);
+                // foodOnlineMenu.manageOptions(restaurants);
             default:
                 System.out.println("Watch Your input");
         }
@@ -179,11 +186,11 @@ public class WrapperRestaurant {
         System.out.println("5: return");
     }
 
-    public static Restaurant chooseRestaurant(ArrayList<Restaurant> restaurants) {
-        printRestaurant(restaurants);
+    public static ServiceBuilding chooseServiceBuilding(ArrayList<ServiceBuilding> serviceBuildings) {
+        printRestaurant(serviceBuildings);
         System.out.println("Choose Restaurant");
         int choice = ScannerWrapper.getInstance().nextInt();
-        return restaurants.get(choice);
+        return serviceBuildings.get(choice);
     }
 
     public static void editComment(Restaurant restaurant) {

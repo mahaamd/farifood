@@ -7,16 +7,15 @@ import java.util.ArrayList;
 public class Customer extends User {
 
     private String phoneNumber;
-
     private String address;
+    private Order orders;
 
-    private ArrayList<Order> orders;
 
-    public Customer(String phoneNumber, String address, ArrayList<Order> orders) {
+    public Customer(String phoneNumber, String address, Order order) {
         super();
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.orders = orders;
+        this.orders = order;
     }
 
 
@@ -27,9 +26,9 @@ public class Customer extends User {
 
     public void addOrder(Order order) {
         if (orders == null) {
-            orders = new ArrayList<>();
+            orders = new Order();
         }
-        orders.add(order);
+        orders = order;
     }
 
 
@@ -42,12 +41,12 @@ public class Customer extends User {
     }
 
 
-    public ArrayList<Order> getOrder() {
-        return new ArrayList<>(orders);
+    public void setOrders(Order orders) {
+        this.orders = orders;
     }
 
-    public void setOrders(ArrayList<Order> orders) {
-        this.orders = orders;
+    public Order getOrders() {
+        return orders;
     }
 
     @Override
@@ -58,9 +57,9 @@ public class Customer extends User {
     }
 
     public void printOrder() {
-        for (int i = 0; i < orders.size(); i++) {// note that it Starts from one not zero
+        for (int i = 0; i < orders.getThings().size(); i++) {// note that it Starts from one not zero
             System.out.println("Order number" + i + 1);
-            System.out.println(orders.get(i));
+            System.out.println(orders.getThings().get(i));
         }
     }
 }

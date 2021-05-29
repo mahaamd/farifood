@@ -2,8 +2,13 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.food.Food;
 import ir.ac.kntu.food.Menu;
+import ir.ac.kntu.food.Order;
+import ir.ac.kntu.order.OrderRange;
+import ir.ac.kntu.order.SuperMarketOrder;
 import ir.ac.kntu.person.*;
 import ir.ac.kntu.retaurant.Restaurant;
+import ir.ac.kntu.retaurant.SuperMarket;
+import ir.ac.kntu.stuffs.Stuff;
 
 
 import java.util.ArrayList;
@@ -15,9 +20,10 @@ public class Main {
         //TODO: DO NOT FORGET TO CHANGE THIS TO User
         Admin admin = new Admin("admin", "Admin");
 
-        ArrayList<Restaurant> restaurants = initializeRestaurant();
-
+//        ArrayList<Restaurant> restaurants = initializeRestaurant();
         FerryFoodOnlineMenu ferryFoodOnlineMenu = new FerryFoodOnlineMenu(initializeDeliverMen(), new ArrayList<>(), initializeRestaurant());
+//        ferryFoodOnlineMenu.restaurantMenu(restaurants);
+//        System.exit(0);
         //ferryFoodOnlineMenu.getAdminsList().add(admin);
         PreStartTask preStartTask = new PreStartTask(ferryFoodOnlineMenu);
         ferryFoodOnlineMenu.setCustomers(initializeCustomers());
@@ -128,9 +134,9 @@ public class Main {
 
     public static ArrayList<Customer> initializeCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
-        Customer customer = new Customer("093645675206", "Qom", new ArrayList<>());
-        Customer customer1 = new Customer("0936256402061", "Tehran", new ArrayList<>());
-        Customer customer2 = new Customer("09116805096", "Karaj", new ArrayList<>());
+        Customer customer = new Customer("093645675206", "Qom", new Order());
+        Customer customer1 = new Customer("0936256402061", "Tehran", new Order());
+        Customer customer2 = new Customer("09116805096", "Karaj", new Order());
         customer.setPassWord("1234567");
         customer.setUserName("1234567");
         customer1.setPassWord("12345678");
@@ -143,8 +149,84 @@ public class Main {
         return customers;
     }
 
+    public ArrayList<Share> initializeShare() {
+        ArrayList<Share> shares = new ArrayList<>();
+        shares.add(new Share(1, 60));
+        shares.add(new Share(2, 85));
+        shares.add(new Share(3, 130));
+        shares.add(new Share(6, 180));
+        shares.add(new Share(12, 350));
+        return shares;
+    }
+
+    public ArrayList<SuperMarket> initializeSuperMarkets() {
+        ArrayList<SuperMarket> superMarkets;
+        Time[] wokTime = new Time[2];
+        wokTime[0] = new Time(9);
+        wokTime[1] = new Time(21);
+        SuperMarket superMarket = new SuperMarket(true, "Brother", "babol", wokTime);
+        SuperMarket superMarket1 = new SuperMarket(true, "hajojbab", "tehran", wokTime);
+        superMarket.setOrder(new SuperMarketOrder());
+        superMarket1.setOrder(new SuperMarketOrder());
+        superMarket.setShares(initializeShare());
+        superMarket1.setShares(initializeShare());
+        superMarket.setComments(new ArrayList<>());
+        superMarket1.setComments(new ArrayList<>());
+        ArrayList<DeliverMan> deliverMEN = initializeDeliverMen();
+        DeliverMan steve = new DeliverMan("Motor", Salary.PER_HOUR, true,
+                new ArrayList<>(), new ArrayList<>());
+        deliverMEN.add(steve);
+        superMarket.setDeliverMEN(deliverMEN);
+        ArrayList<OrderRange> orderRange = initializeOrderRange(wokTime[0].getHour(), wokTime[1].getHour());
+        superMarket.setOrderRanges(orderRange);
+        superMarket1.setOrderRanges(orderRange);
+        return null;
+    }
+
+    private ArrayList<OrderRange> initializeOrderRange(int startTime, int endTime) {
+        ArrayList<OrderRange> orderRanges = new ArrayList<>();
+        ArrayList<DeliverMan> deliverMEN = initializeDeliverMen();
+        orderRanges.add(new OrderRange(9, 10, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(10, 11, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(11, 12, initializeDeliverMen(), 5000));
+        DeliverMan steve = new DeliverMan("Motor", Salary.PER_HOUR, true,
+                new ArrayList<>(), new ArrayList<>());
+        deliverMEN.add(steve);
+        orderRanges.add(new OrderRange(12, 13, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(13, 14, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(14, 15, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(15, 16, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(16, 17, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(17, 18, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(18, 19, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(19, 20, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(20, 21, initializeDeliverMen(), 5000));
+
+        checkIfIncreaseOrNot(orderRanges);
+
+        return orderRanges;
+    }
+
+    public static void checkIfIncreaseOrNot(ArrayList<OrderRange> orderRanges) {
+        for (OrderRange o : orderRanges) {
+            if (o.getDeliverMEN().size() >= 3) {
+                o.setCost(o.getCost() * 1.5);
+            }
+        }
+    }
+
+    public static <T> void print(ArrayList<T> arrayList) {
+        for (T t : arrayList) {
+            System.out.println(t);
+        }
+    }
+
     public ArrayList<Manager> initializeManager() {
         return null;
+    }
+
+    public static ArrayList<Thing> castStuffToThing(ArrayList<Stuff> stuffs) {
+        return new ArrayList<>(stuffs);
     }
 
 }

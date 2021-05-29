@@ -1,25 +1,54 @@
 package ir.ac.kntu.food;
 
+import ir.ac.kntu.Thing;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Order {
 
-    private String status;
+    private OrderStatus status;
+    //
+//    private ArrayList<Food> foods;
+//
+    private ArrayList<Thing> things;
+    private List<? extends Thing> newThing;
 
-    private ArrayList<Food> foods;
+//    public Order() {
+//        foods = new ArrayList<>();
+//    }
+//
+//    public void setFoods(ArrayList<Food> foods) {
+//        this.foods = foods;
+//    }
 
-    //private ArrayList<Order> orders;
-
-    public Order() {
-        foods = new ArrayList<>();
+    public OrderStatus getStatus() {
+        return status;
     }
 
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+
+
+    public void setNewThing(List<? extends Thing> newThing) {
+        this.newThing = newThing;
+    }
+
+    public void setThings(ArrayList<Thing> things) {
+        this.things = things;
+    }
+
+    public ArrayList<Thing> getThings() {
+        return things;
+    }
 
     @Override
     public String toString() {
         String food = "";
-        for (Food f : foods) {
+        for (Thing f : things) {
             food += f.toString();
         }
         return food;
@@ -30,33 +59,33 @@ public class Order {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Order)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Order order = (Order) o;
-        return Objects.equals(getStatus(), order.getStatus()) && Objects.equals(getFoods(), order.getFoods());
+        return status == order.status && Objects.equals(things, order.things) && Objects.equals(newThing, order.newThing);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getStatus(), getFoods());
+        return Objects.hash(status, things, newThing);
     }
 
-    public ArrayList<Food> getFoods() {
-        return new ArrayList<>(foods);
+    public void add(Thing thing) {
+        things.add(thing);
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+//
+//    public void setStatus(OrderStatus status) {
+//        this.status = status;
+//    }
+//
+//    public OrderStatus getStatus() {
+//        return status;
+//    }
 
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void add(Food food) {
-        foods.add(food);
-    }
+//    public void add(Food food) {
+//        foods.add(food);
+//    }
 
 }

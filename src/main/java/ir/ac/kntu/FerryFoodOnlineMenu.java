@@ -1,11 +1,12 @@
 package ir.ac.kntu;
 
 import ir.ac.kntu.food.Order;
+import ir.ac.kntu.order.SuperMarketOrder;
 import ir.ac.kntu.person.*;
 
 import ir.ac.kntu.retaurant.EditMenu;
 import ir.ac.kntu.retaurant.Restaurant;
-import ir.ac.kntu.retaurant.WrapperRestaurant;
+import ir.ac.kntu.retaurant.ServiceBuildingWrapper;
 
 import java.util.ArrayList;
 
@@ -71,48 +72,48 @@ public class FerryFoodOnlineMenu {
         System.out.println("3: Customer");
         System.out.println("4: exit");
     }
-//
-//    public void handleChoices(int option, ArrayList<Restaurant> restaurants) {
-//        //CustomersHelper customersHelper = new CustomersHelper();
-//        switch (option) {
-//            case 1:
-//                //customerStartingMenu(restaurants);
-//                //adminMenu();
-//                manageOptions(restaurants);
-//                break;
-//            case 2:
-//                //restaurantMenu(restaurants);
-//                //manager();
-//                break;
-//            case 3:
-//                //deliverManMenu(restaurants);
-//                //customerMenu();
-//                break;
-////            case 4:
-////                sortOptions(restaurants);
-////                manageOptions(restaurants);
-////                break;
-//            case 4:
-//                System.exit(0);
-//                break;
-//            default:
-//                System.out.println("Wrong Input");
-//                manageOptions(restaurants);
-//        }
-//    }
-
-    public void customerMenu(Customer customer) {
-        customersHelper.manageCustomerOrders(restaurants, orders);//TODO:check if you nedd to add new menu for this in this class  
-        customersHelper.showCustomerOrderHistory(customers);
-    }
 
     public void manager(Manager manager) {
-        Restaurant restaurant = WrapperRestaurant.chooseRestaurant(restaurants);
-        WrapperRestaurant.update(restaurants);
-        restaurant.showOrderHistory();
-        MangeDeliverMan.printDeliverMen(deliverMEN);
-        restaurant.showComments();
+        Restaurant restaurant = manager.getRestaurant();
+        int option = printManagerMenu();
+        if (option == 1) {
+            ServiceBuildingWrapper.update(restaurants);
+        } else if (option == 2) {
+            editMenu.addNewMenu(restaurant);
+        } else if (option == 3) {
+            editMenu.changeMenu(restaurant);
+        } else if (option == 4) {
+            restaurant.showOrderHistory();
+        } else if (option == 5) {
+            restaurant.printDeliverMan();
+        } else if (option == 6) {
+            restaurant.showComments();
+        } else {
+            System.out.println("wrong inout");
+            manager(manager);
+        }
     }
+
+    public int printManagerMenu() {
+        System.out.println("Choose What todo");
+        System.out.println("1: Edit Your Restaurant");
+        System.out.println("2: Add new menu");
+        System.out.println("3: Change Existing Menu");
+        System.out.println("4: Show Order History");
+        System.out.println("5: Print restaurant DeliverNan");
+        System.out.println("6: Show restaurant Comment");
+        return ScannerWrapper.getInstance().nextInt();
+    }
+
+    public void customerMenu(Customer customer) {
+        customersHelper.manageCustomerOrders(restaurants, orders);//TODO:check if you need to add new menu for this in this part
+        customersHelper.showCustomerOrderHistory(customers);
+        //TODO: Add Share
+//        SuperMarketOrder superMarketOrder = new SuperMarketOrder();
+//        SuperMarketOrder.SuperMarketOrderHelper superMarketOrderHelper = superMarketOrder.new SuperMarketOrderHelper();
+//        superMarketOrderHelper.makeOrder();
+    }
+
 
     public void adminMenu(Admin admin) {
         System.out.println("Admin");
@@ -189,15 +190,15 @@ public class FerryFoodOnlineMenu {
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         switch (choice) {
             case 1:
-                WrapperRestaurant.add(restaurants);
+                ServiceBuildingWrapper.add(restaurants);
                 restaurantMenu(restaurants);
                 break;
             case 2:
-                WrapperRestaurant.update(restaurants);
+                ServiceBuildingWrapper.update(restaurants);
                 restaurantMenu(restaurants);
                 break;
             case 3:
-                WrapperRestaurant.printRestaurant(restaurants);
+                ServiceBuildingWrapper.printRestaurant(new ArrayList<>(restaurants));
                 restaurantMenu(restaurants);
                 break;
             case 4:
@@ -214,12 +215,12 @@ public class FerryFoodOnlineMenu {
         int choice = ScannerWrapper.getInstance().nextInt();
         if (choice == 1) {
             for (Restaurant r : restaurants) {
-                WrapperRestaurant.sortFoodsByPrice(r);
+                ServiceBuildingWrapper.sortFoodsByPrice(r);
             }
         }
         if (choice == 2) {
             for (Restaurant r : restaurants) {
-                WrapperRestaurant.sortFoodsByScores(r);
+                ServiceBuildingWrapper.sortFoodsByScores(r);
             }
         }
     }
@@ -233,16 +234,16 @@ public class FerryFoodOnlineMenu {
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         switch (choice) {
             case 1:
-                WrapperRestaurant.sortAscendingByComments(restaurants);
+                ServiceBuildingWrapper.sortAscendingByComments(restaurants);
                 break;
             case 2:
-                WrapperRestaurant.sortDescendingByComments(restaurants);
+                ServiceBuildingWrapper.sortDescendingByComments(restaurants);
                 break;
             case 3:
-                WrapperRestaurant.sortAscendingByScore(restaurants);
+                ServiceBuildingWrapper.sortAscendingByScore(restaurants);
                 break;
             case 4:
-                WrapperRestaurant.sortDescendingByScore(restaurants);
+                ServiceBuildingWrapper.sortDescendingByScore(restaurants);
                 break;
             case 5:
                 //manageOptions(restaurants);

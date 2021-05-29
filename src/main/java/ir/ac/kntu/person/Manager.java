@@ -9,4 +9,8 @@ public class Manager extends User {
     public Manager(String userName, String passWord) {
         super(userName, passWord);
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
 }

@@ -1,8 +1,10 @@
 package ir.ac.kntu.food;
 
+import ir.ac.kntu.Thing;
+
 import java.util.ArrayList;
 
-public class Food {
+public class Food extends Thing {
 
     private int rate;
 
