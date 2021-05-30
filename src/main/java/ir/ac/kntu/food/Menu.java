@@ -1,6 +1,7 @@
 package ir.ac.kntu.food;
 
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.Thing;
 
 
 import java.util.ArrayList;
@@ -8,15 +9,15 @@ import java.util.ArrayList;
 
 public class Menu {
 
-    private ArrayList<Food> foods;
+    private ArrayList<Thing> things;
     //private ArrayList<Commodity> commodities;
 
     public Menu() {
-        foods = new ArrayList<>();
+        things = new ArrayList<>();
     }
 
-    public Menu(ArrayList<Food> foods) {
-        this.foods = foods;
+    public Menu(ArrayList<Thing> things) {
+        this.things = things;
     }
 
 //    @Override
@@ -26,12 +27,20 @@ public class Menu {
 //                '}';
 //    }
 
-    public void setFoods(ArrayList<Food> foods) {
-        this.foods = foods;
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "things=" + things +
+                '}';
     }
 
-    public ArrayList<Food> getFoods() {
-        return new ArrayList<>(foods);
+    public void setFoods(ArrayList<Thing> things) {
+        this.things = things;
+    }
+
+    public ArrayList<Thing> getFoods() {
+        return new ArrayList<>(things);
     }
 
     public void printMenu() {
@@ -43,10 +52,10 @@ public class Menu {
     }
 
     public void printFood() {
-        for (int i = 0; i < foods.size(); i++) {
+        for (int i = 0; i < things.size(); i++) {
             System.out.println(i + ":");
-            System.out.println(foods.get(i));
-            System.out.println(foods.get(i).getComments());
+            System.out.println(things.get(i));
+            System.out.println(things.get(i).getComments());
             System.out.println("================================");
         }
     }
@@ -59,15 +68,15 @@ public class Menu {
         double price = Double.parseDouble(ScannerWrapper.getInstance().nextLine());
         System.out.println("Enter Score");
         Food food = new Food(name, price, Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
-        foods.add(food);
+        things.add(food);
     }
 
     public void delete() {
-        //ArrayList<Food> newFoods = new ArrayList<>(foods);
+        //ArrayList<Food> newthings = new ArrayList<>(things);
         printFood();
         System.out.println("Choose Food To Remove");
         int choice = ScannerWrapper.getInstance().nextInt();
-        foods.remove(foods.get(choice));
+        things.remove(things.get(choice));
     }
 
     public void editFood() {
@@ -84,4 +93,7 @@ public class Menu {
         }
     }
 
+    public void remove(Thing th) {
+        things.remove(th);
+    }
 }

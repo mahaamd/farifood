@@ -15,36 +15,38 @@ import java.util.ArrayList;
 
 public class SuperMarket extends ServiceBuilding {
 
-//    private boolean status;
+    //    private boolean status;
 //    private String name;
 //    private String address;
 //    private int score = 5;
 //    private ArrayList<DeliverMan> deliverMEN;
 //    private ArrayList<String> comments;
     private ArrayList<Share> shares;
-    private Time[] workHour;
-    private SuperMarketOrder order;
+    //private Time[] workHour;
+    //private SuperMarketOrder order;
     private ArrayList<OrderRange> orderRanges;
-    private ArrayList<Stuff> stuffs;
 
-    public SuperMarket(boolean status, String name, String address, Time[] workHour) {
-        setStatus(status);
-        setName(name);
-        setAddress(address);
-        this.workHour = workHour;
+
+    public SuperMarket(boolean status, String name, String address) {
+        super(status, name, address);
     }
 
-    public SuperMarketOrder getOrder() {
-        return order;
+    public SuperMarket(boolean status, String name, String address, Menu menu, ArrayList<String> comments, ArrayList<DeliverMan> deliverMan) {
+        super(status, name, address, menu, comments, deliverMan);
     }
+//    @Override
+//    public SuperMarketOrder getOrder() {
+//        return order;
+//    }
+
 
     public void setOrderRanges(ArrayList<OrderRange> orderRanges) {
         this.orderRanges = orderRanges;
     }
 
-    public ArrayList<Stuff> getStuffs() {
-        return stuffs;
-    }
+//    public ArrayList<Stuff> getStuffs() {
+//        return stuffs;
+//    }
 
     //    public void setDeliverMEN(ArrayList<DeliverMan> deliverMEN) {
 //        this.deliverMEN = deliverMEN;
@@ -54,23 +56,29 @@ public class SuperMarket extends ServiceBuilding {
 //        this.comments = comments;
 //    }
 
+
+    @Override
+    public void setWorkHours(Time[] workHours) {
+        super.setWorkHours(workHours);
+    }
+
     public void setShares(ArrayList<Share> shares) {
         this.shares = shares;
     }
 
-    public void setOrder(SuperMarketOrder order) {
-        this.order = order;
-    }
+    //public void setOrder(SuperMarketOrder order) {
+    // this.order = order;
+    //}
 
     public ArrayList<OrderRange> getOrderRanges() {
         return orderRanges;
     }
 
-    public void printStuff() {
-        for (Stuff s: stuffs) {
-            System.out.println(s);
-        }
-    }
+//    public void printStuff() {
+//        for (Stuff s: stuffs) {
+//            System.out.println(s);
+//        }
+//    }
 
     //    public SuperMarket(Time[] workHour) {
 //        this.workHour = workHour;

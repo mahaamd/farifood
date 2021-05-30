@@ -9,6 +9,7 @@ public class Customer extends User {
     private String phoneNumber;
     private String address;
     private Order orders;
+    private Share share;
 
 
     public Customer(String phoneNumber, String address, Order order) {
@@ -18,11 +19,18 @@ public class Customer extends User {
         this.orders = order;
     }
 
+    public void setShare(Share share) {
+        this.share = share;
+    }
 
-//    public Customer(String userName, String passWord) {
+    //    public Customer(String userName, String passWord) {
 //        super(userName, passWord);
 //    }
 
+
+    public Share getShare() {
+        return share;
+    }
 
     public void addOrder(Order order) {
         if (orders == null) {

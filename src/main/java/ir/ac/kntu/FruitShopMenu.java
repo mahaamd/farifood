@@ -6,7 +6,6 @@ import ir.ac.kntu.retaurant.Fruit;
 import java.util.ArrayList;
 
 public class FruitShopMenu {
-    private ArrayList<Fruit> fruits;
 
 
 

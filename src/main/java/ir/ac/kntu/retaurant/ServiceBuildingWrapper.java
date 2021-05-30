@@ -2,19 +2,20 @@ package ir.ac.kntu.retaurant;
 
 import ir.ac.kntu.ScannerWrapper;
 import ir.ac.kntu.ServiceBuilding;
+import ir.ac.kntu.Thing;
 import ir.ac.kntu.Time;
 import ir.ac.kntu.food.Food;
 import ir.ac.kntu.food.Menu;
+import ir.ac.kntu.food.Order;
+import ir.ac.kntu.order.OrderRange;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 public class ServiceBuildingWrapper {
 
     // EditMenu editMenu;
 
-    public static void sortAscendingByScore(ArrayList<Restaurant> restaurants) {
+    public static void sortAscendingByScore(ArrayList<? extends ServiceBuilding> restaurants) {
         for (int i = 0; i < restaurants.size() - 1; i++) {
             for (int j = 0; j < restaurants.size() - 1; j++) {
                 if (restaurants.get(j).getScore() > restaurants.get(j + 1).getScore()) {
@@ -60,11 +61,11 @@ public class ServiceBuildingWrapper {
     }
 
     public static void sortFoodsByPrice(Restaurant restaurant) {
-        ArrayList<Food> foods = restaurant.getMenu().getFoods();
+        ArrayList<Thing> foods = restaurant.getMenu().getFoods();
         for (int i = 0; i < foods.size() - 1; i++) {
             for (int j = 0; j < foods.size() - 1; j++) {
                 if (foods.get(j).getPrice() > foods.get(j + 1).getPrice()) {
-                    Food temp = foods.get(j);
+                    Thing temp = foods.get(j);
                     foods.set(j, foods.get(j + 1));
                     foods.set(j + 1, temp);
 
@@ -75,11 +76,11 @@ public class ServiceBuildingWrapper {
     }
 
     public static void sortFoodsByScores(Restaurant restaurant) {
-        ArrayList<Food> foods = restaurant.getMenu().getFoods();
+        ArrayList<Thing> foods = restaurant.getMenu().getFoods();
         for (int i = 0; i < foods.size() - 1; i++) {
             for (int j = 0; j < foods.size() - 1; j++) {
-                if (foods.get(j).getRate() < foods.get(j + 1).getRate()) {
-                    Food temp = foods.get(j);
+                if (foods.get(j).getPrice() < foods.get(j + 1).getPrice()) {
+                    Thing temp = foods.get(j);
                     foods.set(j, foods.get(j + 1));
                     foods.set(j + 1, temp);
 
@@ -110,9 +111,9 @@ public class ServiceBuildingWrapper {
         }
     }
 
-    public static void add(ArrayList<Restaurant> restaurants) {
-        Time[] workTime = new Time[4];
-        ArrayList<Food> foodNames = new ArrayList<>();
+    public static ServiceBuilding add(ServiceBuilding serviceBuilding) {
+        Time[] workTime = new Time[2];
+        ArrayList<Thing> foodNames = new ArrayList<>();
         // Food food = new Food();
         System.out.println("Enter Restaurant Name");
         String name = ScannerWrapper.getInstance().nextLine();
@@ -121,26 +122,34 @@ public class ServiceBuildingWrapper {
         System.out.println("Enter Numbers Of Foods You Want To Add To Menu");
         int count = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         while (count > 0) {
-            Food food = new Food();
+            Thing food = new Thing();
             System.out.println("Enter Name");
             food.setName(ScannerWrapper.getInstance().nextLine());
             System.out.println("Enter Price");
             food.setPrice(Double.parseDouble(ScannerWrapper.getInstance().nextLine()));
-            food.setRate((int) (5 * Math.random()));
+            food.setPrice((int) (5 * Math.random()));
             food.setComments(new ArrayList<>());
             foodNames.add(food);
             count--;
         }
-        System.out.println("Enter 4 numbers for workHours :days(...)to(...) & Evening(...)to(...)");
+        System.out.println("Enter 2 numbers for workHours :days(...) to (...)");
         workTime[0] = new Time(Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
         workTime[1] = new Time(Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
-        workTime[2] = new Time(Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
-        workTime[3] = new Time(Integer.parseInt(ScannerWrapper.getInstance().nextLine()));
-        Restaurant newOne = new Restaurant(true, name, address, new Menu(foodNames), new ArrayList<>(),
-                new ArrayList<>());
+
+        ServiceBuilding newOne = chooseCast(serviceBuilding, name, address, foodNames);
+        //new ServiceBuilding(true, name, address, new Menu(new ArrayList<>(foodNames)), new ArrayList<>(), new ArrayList<>());
         newOne.setWorkHours(workTime);
-        newOne.setOrders(new ArrayList<>());
-        restaurants.add(newOne);
+        //newOne.addOrder(new Order());
+        return newOne;
+    }
+
+    private static ServiceBuilding chooseCast(ServiceBuilding serviceBuilding, String name, String address, ArrayList<Thing> foodNames) {
+        if (serviceBuilding.getClass() == Restaurant.class) {
+            return new Restaurant(true, name, address, new Menu(new ArrayList<>(foodNames)), new ArrayList<>(), new ArrayList<>());
+        } else if (serviceBuilding.getClass() == FruitShop.class) {
+            return new FruitShop(true, name, address, new Menu(new ArrayList<>(foodNames)), new ArrayList<>(), new ArrayList<>());
+        }
+        return new SuperMarket(true, name, address, new Menu(new ArrayList<>(foodNames)), new ArrayList<>(), new ArrayList<>());
     }
 
     public static void update(ArrayList<Restaurant> restaurants) {
@@ -207,6 +216,23 @@ public class ServiceBuildingWrapper {
             addNewComment(restaurant);
         }
 
+    }
+
+    public static OrderRange printOrderRange(ArrayList<OrderRange> orderRanges) {
+        OrderRange orderRange = new OrderRange();
+        for (OrderRange o : orderRanges) {
+            if (o.getCurrentCapacity() < o.getMaximumCapacity()) {
+                System.out.print(o.getStart() + " " + o.getEnd() + " price-> " + o.getCost() + "\n");
+            }
+        }
+        System.out.println("Select One");
+        try {
+            orderRange = orderRanges.get(ScannerWrapper.getInstance().nextInt());
+        } catch (InputMismatchException n) {
+            System.out.println("Watch Your Input");
+            printOrderRange(orderRanges);
+        }
+        return orderRange;
     }
 
     public static void removeComment(Restaurant restaurant) {

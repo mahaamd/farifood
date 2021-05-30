@@ -4,9 +4,7 @@ import ir.ac.kntu.food.Order;
 import ir.ac.kntu.order.SuperMarketOrder;
 import ir.ac.kntu.person.*;
 
-import ir.ac.kntu.retaurant.EditMenu;
-import ir.ac.kntu.retaurant.Restaurant;
-import ir.ac.kntu.retaurant.ServiceBuildingWrapper;
+import ir.ac.kntu.retaurant.*;
 
 import java.util.ArrayList;
 
@@ -14,16 +12,34 @@ public class FerryFoodOnlineMenu {
 
 
     private ArrayList<Manager> managers;
+    private ArrayList<Fruit> fruits;
     private ArrayList<Restaurant> restaurants;
+    //    private ArrayList<ServiceBuilding> serviceBuildings;
     private ArrayList<Admin> adminsList;
     private ArrayList<Customer> customers;
     private ArrayList<DeliverMan> deliverMEN;
     private ArrayList<Order> orders;
     private CustomersHelper customersHelper;
     private EditMenu editMenu;
+    private ArrayList<SuperMarket> superMarkets;
+    private ArrayList<FruitShop> fruitShops;
 
     public FerryFoodOnlineMenu() {
 
+    }
+
+
+
+    public void setSuperMarkets(ArrayList<SuperMarket> superMarkets) {
+        this.superMarkets = superMarkets;
+    }
+
+    public void setFruitShops(ArrayList<FruitShop> fruitShops) {
+        this.fruitShops = fruitShops;
+    }
+
+    public void setAdminsList(ArrayList<Admin> adminsList) {
+        this.adminsList = adminsList;
     }
 
     public ArrayList<Manager> getManagers() {
@@ -43,7 +59,7 @@ public class FerryFoodOnlineMenu {
         this.deliverMEN = deliverMEN;
         this.orders = orders;
         this.customersHelper = new CustomersHelper();
-        adminsList = new ArrayList<>();
+//        adminsList = new ArrayList<>();
         this.restaurants = restaurants;
     }
 
@@ -83,13 +99,13 @@ public class FerryFoodOnlineMenu {
         } else if (option == 3) {
             editMenu.changeMenu(restaurant);
         } else if (option == 4) {
-            restaurant.showOrderHistory();
+            Main.print(restaurant.getOrders());
         } else if (option == 5) {
             restaurant.printDeliverMan();
         } else if (option == 6) {
             restaurant.showComments();
         } else {
-            System.out.println("wrong inout");
+            System.out.println("wrong input");
             manager(manager);
         }
     }
@@ -190,7 +206,7 @@ public class FerryFoodOnlineMenu {
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         switch (choice) {
             case 1:
-                ServiceBuildingWrapper.add(restaurants);
+                //restaurants.add((Restaurant) ServiceBuildingWrapper.add());
                 restaurantMenu(restaurants);
                 break;
             case 2:

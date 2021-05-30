@@ -10,82 +10,74 @@ import ir.ac.kntu.retaurant.SuperMarket;
 import ir.ac.kntu.stuffs.Stuff;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Locale;
 
-public class SuperMarketOrder {
+public class SuperMarketOrder extends Order{
     private ArrayList<Stuff> stuffs;
-    private static double deliveryCost;
-    private static OrderRange orderRange;
+    private double deliveryCost;
+    private OrderRange orderRange;
 
     public SuperMarketOrder() {
 
     }
 
-    public class SuperMarketOrderHelper {
-
-        public void makeOrder(ArrayList<SuperMarket> superMarkets) {
-            ServiceBuildingWrapper.printRestaurant(superMarkets);
-            SuperMarket superMarket = (SuperMarket) ServiceBuildingWrapper
-                    .chooseServiceBuilding(new ArrayList<>(superMarkets));
-            superMarkets.remove(superMarket);
-            ir.ac.kntu.order.SuperMarketOrder.orderRange = printOrderRange(superMarket.getOrderRanges());
-            superMarket.printStuff();
-            ArrayList<Thing> stuffs = Main.castStuffToThing(chooseStuff(superMarket.getStuffs()));
-            Order orders = new Order();
-            //orders.setNewThing(stuffs);
-            orders.setThings(stuffs);
-            SuperMarketOrder.deliveryCost += orderRange.getCost();
-
-        }
-
-        private ArrayList<Stuff> chooseStuff(ArrayList<Stuff> stuffs) {
-            ArrayList<Stuff> stuffs1 = new ArrayList<>();
-            for (Stuff stuff : stuffs) {
-                System.out.println(stuff);
-            }
-            while (true) {
-                System.out.println("Choose One When Finished type" + "finished");
-                String choice = ScannerWrapper.getInstance().nextLine();
-                if (choice.equals("finished")) {
-                    break;
-                }
-                stuffs1.add(stuffs.get(Integer.parseInt(choice)));
-            }
-            return stuffs1;
-        }
-
-        private OrderRange printOrderRange(ArrayList<OrderRange> orderRanges) {
-            OrderRange orderRange = new OrderRange();
-            for (OrderRange o : orderRanges) {
-                if (o.getCurrentCapacity() < o.getMaximumCapacity()) {
-                    System.out.print(o.getStart() + " " + o.getEnd() + o.getCost() + "\n");
-                }
-            }
-            System.out.println("Select One");
-            try {
-                orderRange = orderRanges.get(ScannerWrapper.getInstance().nextInt());
-            } catch (Exception e) {
-                System.out.println("Watch Your Input");
-                printOrderRange(orderRanges);
-            }
-            return orderRange;
-        }
-
-        // public SuperMarketOrder(double deliveryCost) {
-        // this.deliveryCost = deliveryCost;
-        // }
-
-        // private class OrderRange {
-        // Integer Start;
-        // Integer End;
-        // ArrayList<DeliverMan> deliverMEN;
-        //
-        // public OrderRange(Integer start, Integer end, ArrayList<DeliverMan>
-        // deliverMEN) {
-        // Start = start;
-        // End = end;
-        // this.deliverMEN = deliverMEN;
-        // }
-        // }
+    public ArrayList<Stuff> getStuffs() {
+        return stuffs;
     }
+
+    public void setStuffs(ArrayList<Stuff> stuffs) {
+        this.stuffs = stuffs;
+    }
+
+    public double getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(double deliveryCost) {
+        this.deliveryCost = deliveryCost;
+    }
+
+    public OrderRange getOrderRange() {
+        return orderRange;
+    }
+
+    public void setOrderRange(OrderRange orderRange) {
+        this.orderRange = orderRange;
+    }
+
+    //        private OrderRange printOrderRange(ArrayList<OrderRange> orderRanges) {
+//            OrderRange orderRange = new OrderRange();
+//            for (OrderRange o : orderRanges) {
+//                if (o.getCurrentCapacity() < o.getMaximumCapacity()) {
+//                    System.out.print(o.getStart() + " " + o.getEnd() + o.getCost() + "\n");
+//                }
+//            }
+//            System.out.println("Select One");
+//            try {
+//                orderRange = orderRanges.get(ScannerWrapper.getInstance().nextInt());
+//            } catch (InputMismatchException n) {
+//                System.out.println("Watch Your Input");
+//                printOrderRange(orderRanges);
+//            }
+//            return orderRange;
+//        }
+
+    // public SuperMarketOrder(double deliveryCost) {
+    // this.deliveryCost = deliveryCost;
+    // }
+
+    // private class OrderRange {
+    // Integer Start;
+    // Integer End;
+    // ArrayList<DeliverMan> deliverMEN;
+    //
+    // public OrderRange(Integer start, Integer end, ArrayList<DeliverMan>
+    // deliverMEN) {
+    // Start = start;
+    // End = end;
+    // this.deliverMEN = deliverMEN;
+    // }
+    // }
 }
 

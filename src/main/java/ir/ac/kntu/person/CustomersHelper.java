@@ -1,12 +1,19 @@
 package ir.ac.kntu.person;
 
+import ir.ac.kntu.Main;
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.Thing;
 import ir.ac.kntu.food.Food;
 import ir.ac.kntu.food.Order;
 import ir.ac.kntu.food.OrderStatus;
-import ir.ac.kntu.retaurant.Restaurant;
-import ir.ac.kntu.retaurant.ServiceBuildingWrapper;
+import ir.ac.kntu.order.FruitShopOrder;
+import ir.ac.kntu.order.OrderRange;
+import ir.ac.kntu.order.SuperMarketOrder;
+import ir.ac.kntu.retaurant.*;
+import ir.ac.kntu.stuffs.Stuff;
 
+import java.io.IOException;
+import java.security.Provider;
 import java.util.ArrayList;
 
 
@@ -27,7 +34,7 @@ public class CustomersHelper {
         setOrderStatus(restaurant, restaurant.getMenu().getFoods().get(choice), orders);
     }
 
-    public void setOrderStatus(Restaurant restaurant, Food food, ArrayList<Order> orders) {
+    public void setOrderStatus(Restaurant restaurant, Thing food, ArrayList<Order> orders) {
         Order order = new Order();
         order.add(food);
         order.setStatus(OrderStatus.IN_PROCESS);
@@ -163,7 +170,7 @@ public class CustomersHelper {
 
     public void printInProcessOrders(ArrayList<Order> orders) {
         for (int i = 0; i < orders.size(); i++) {
-            if (orders.get(i).getStatus() == OrderStatus.IN_PROCESS||
+            if (orders.get(i).getStatus() == OrderStatus.IN_PROCESS ||
                     orders.get(i).getStatus() == OrderStatus.SENDING) {
                 System.out.println(i);
                 System.out.println(orders.get(i));
@@ -182,6 +189,123 @@ public class CustomersHelper {
         System.out.println("Choose One");
         int choice = ScannerWrapper.getInstance().nextInt();
         return customers.get(choice);
+    }
+
+    public void buyFruit(Customer customer, ArrayList<FruitShop> fruitShops) {
+        FruitShopOrder fruitShopOrder = new FruitShopOrder();
+//        ServiceBuildingWrapper.printRestaurant(fruitShops);
+        FruitShop fruitShop = (FruitShop) ServiceBuildingWrapper.chooseServiceBuilding(new ArrayList<>(fruitShops));
+        ArrayList<Thing> fruits = chooseStuff(fruitShop.getMenu().getFoods());
+        OrderRange orderRange = ServiceBuildingWrapper.printOrderRange(fruitShop.getOrderRanges());
+        setFruitAmount(fruitShopOrder, fruits);
+        customer.addOrder(fruitShopOrder);
+        orderRange.getDeliverMEN().get((int) (Math.random() * orderRange.getDeliverMEN().size())).addOrder(fruitShopOrder);
+        fruitShop.addOrder(fruitShopOrder);
+    }
+
+    private void setFruitAmount(FruitShopOrder fruitShopOrder, ArrayList<Thing> fruits) {
+        print(fruits);
+        int count = 0;
+        System.out.println("Choose One and enter amount " +
+                "the total amount should be less than " + fruitShopOrder.getMaximumAmountPerOrder() + "When finished type finished");
+        while (true) {
+            ArrayList<Thing> orders = new ArrayList<>();
+            String input = ScannerWrapper.getInstance().nextLine();
+            if (input.equalsIgnoreCase("finished")) {
+                break;
+            }
+            System.out.println("amount(Kg)");
+            int input1 = ScannerWrapper.getInstance().nextInt();
+            for (int i = 0; i < input1; i++) {
+                if (count < fruitShopOrder.getMaximumAmountPerOrder()) {
+                    orders.add(fruits.get(Integer.parseInt(input)));
+                    fruits.get(Integer.parseInt(input)).setCount(Integer.parseInt(input) + input1);
+                    System.out.println(fruits.get(Integer.parseInt(input)).getCount() + "cccccccccccccccccccccccc");
+                    count++;
+                }
+            }
+            if (count > fruitShopOrder.getMaximumAmountPerOrder()) {
+                System.out.println("You have Pass the Limit");
+                break;
+            }
+            fruitShopOrder.setThings(orders);
+        }
+    }
+
+    public void makeOrder(ArrayList<SuperMarket> superMarkets, Customer customer) {
+        //ServiceBuildingWrapper.printRestaurant(superMarkets);
+//        double cost = 0;
+        SuperMarketOrder superMarketOrder = new SuperMarketOrder();
+        SuperMarket superMarket = (SuperMarket) ServiceBuildingWrapper
+                .chooseServiceBuilding(new ArrayList<>(superMarkets));
+//            superMarkets.remove(superMarket);
+        ArrayList<Thing> stuffs0 = chooseStuff(superMarket.getMenu().getFoods());
+        OrderRange orderRange = ServiceBuildingWrapper.printOrderRange(superMarket.getOrderRanges());
+        Main.print(stuffs0);
+//        ArrayList<Thing> stuffs = superMarket.getMenu().getFoods();
+        Order orders = new Order();
+        //orders.setNewThing(stuffs);
+        if (!customer.getShare().isBought()) {
+            superMarketOrder.setDeliveryCost(superMarketOrder.getDeliveryCost() + totalCost(stuffs0) + orderRange.getCost());
+        }
+        System.out.println("total cost =" + superMarketOrder.getDeliveryCost());
+        System.out.println("Buy?");
+        if (ScannerWrapper.getInstance().nextLine().equalsIgnoreCase("yes")) {
+            orderRange.setCurrentCapacity(orderRange.getCurrentCapacity() + 1);
+            orders.setThings(stuffs0);
+            customer.addOrder(orders);
+            superMarket.addOrder(orders);
+            reduceCount(stuffs0, superMarket);
+            orderRange.getDeliverMEN().get((int) (Math.random() * orderRange.getDeliverMEN().size())).addOrder(orders);
+        }
+    }
+
+    private void reduceCount(ArrayList<Thing> stuffs0, SuperMarket superMarket) {
+        for (Thing t : stuffs0) {
+            for (Thing th : superMarket.getMenu().getFoods()) {
+                if (t.equals(th)) {
+                    th.setCount(th.getCount() - 1);
+                }
+                if (th.getCount() == 0) {
+                    superMarket.getMenu().remove(th);
+                }
+            }
+        }
+    }
+
+    private double totalCost(ArrayList<Thing> stuffs0) {
+        double sum = 0;
+        for (Thing t : stuffs0) {
+            sum += t.getPrice();
+        }
+        return sum;
+    }
+
+    private ArrayList<Thing> chooseStuff(ArrayList<? extends Thing> stuffs) {
+        ArrayList<Thing> stuffs1 = new ArrayList<>();
+//            for (Thing stuff : stuffs) {
+//                System.out.println(stuff);
+//            }
+        print(stuffs);
+        System.out.println("Choose One When Finished type " + "finished");
+        while (true) {
+            System.out.println();
+            String choice = ScannerWrapper.getInstance().nextLine();
+            if (choice.equals("finished")) {
+                break;
+            }
+            stuffs1.add(stuffs.get(Integer.parseInt(choice)));
+        }
+        return stuffs1;
+    }
+
+    private void print(ArrayList<? extends Thing> things) {
+        for (int i = 0; i < things.size(); i++) {
+            if (things.get(i).getCount() > 0) {
+                System.out.println("number " + i);
+                System.out.println(things.get(i));
+            }
+        }
     }
 
 }

@@ -13,8 +13,8 @@ public class OrderRange {
     private int currentCapacity;
 
     public OrderRange(Integer start, Integer end, ArrayList<DeliverMan> deliverMEN, double cost) {
-        start = start;
-        end = end;
+        this.start = start;
+        this.end = end;
         this.deliverMEN = deliverMEN;
         this.cost = cost;
     }
@@ -27,7 +27,7 @@ public class OrderRange {
     }
 
     public void setStart(Integer start) {
-        start = start;
+        this.start = start;
     }
 
     public Integer getEnd() {
@@ -35,10 +35,20 @@ public class OrderRange {
     }
 
     public void setEnd(Integer end) {
-        end = end;
+        this.end = end;
     }
 
-    
+    @Override
+    public String toString() {
+        return "OrderRange{" +
+                "start=" + start +
+                ", end=" + end +
+                ", deliverMEN=" + deliverMEN +
+                ", cost=" + cost +
+                ", maximumCapacity=" + maximumCapacity +
+                ", currentCapacity=" + currentCapacity +
+                '}';
+    }
 
     public double getCost() {
         return cost;
@@ -68,6 +78,5 @@ public class OrderRange {
         this.currentCapacity = currentCapacity;
     }
 
-    
 
 }

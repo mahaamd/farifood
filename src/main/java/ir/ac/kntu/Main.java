@@ -6,9 +6,9 @@ import ir.ac.kntu.food.Order;
 import ir.ac.kntu.order.OrderRange;
 import ir.ac.kntu.order.SuperMarketOrder;
 import ir.ac.kntu.person.*;
-import ir.ac.kntu.retaurant.Restaurant;
-import ir.ac.kntu.retaurant.SuperMarket;
+import ir.ac.kntu.retaurant.*;
 import ir.ac.kntu.stuffs.Stuff;
+import ir.ac.kntu.stuffs.StuffStatus;
 
 
 import java.util.ArrayList;
@@ -18,13 +18,15 @@ public class Main {
     public static void main(String[] args) {
 
         //TODO: DO NOT FORGET TO CHANGE THIS TO User
-        Admin admin = new Admin("admin", "Admin");
+//        Admin admin = new Admin("admin", "Admin");
 
 //        ArrayList<Restaurant> restaurants = initializeRestaurant();
         FerryFoodOnlineMenu ferryFoodOnlineMenu = new FerryFoodOnlineMenu(initializeDeliverMen(), new ArrayList<>(), initializeRestaurant());
-//        ferryFoodOnlineMenu.restaurantMenu(restaurants);
-//        System.exit(0);
-        //ferryFoodOnlineMenu.getAdminsList().add(admin);
+        ferryFoodOnlineMenu.setFruitShops(initializeFruitShop());
+        ferryFoodOnlineMenu.setSuperMarkets(initializeSuperMarkets());
+        ferryFoodOnlineMenu.setCustomers(initializeCustomers());
+        ferryFoodOnlineMenu.setAdminsList(initializeAdmin());
+
         PreStartTask preStartTask = new PreStartTask(ferryFoodOnlineMenu);
         ferryFoodOnlineMenu.setCustomers(initializeCustomers());
 
@@ -48,11 +50,20 @@ public class Main {
 //        }
     }
 
+    private static ArrayList<Admin> initializeAdmin() {
+        ArrayList<Admin> admins = new ArrayList<>();
+        admins.add(new Admin("12345", "12345"));
+        admins.add(new Admin("7891011", "781011"));
+        admins.add(new Admin("9630", "963000"));
+
+        return admins;
+    }
+
     public static ArrayList<Restaurant> initializeRestaurant() {
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = new Restaurant(true, "akbarjooje", "tehran", new Menu());
-        Time[] workHours = {new Time(8), new Time(13), new Time(16), new Time(21)};
-        restaurant.getMenu().setFoods(initializeFood()[0]);
+        Time[] workHours = {new Time(8), new Time(21)};
+        restaurant.getMenu().setFoods(new ArrayList<>(initializeFood()[0]));
         restaurant.setWorkHours(workHours);
         restaurant.addComments("Good");
         restaurant.addComments("Good");
@@ -63,7 +74,7 @@ public class Main {
         restaurant.setDeliverMEN(initializeDeliverMen());
         restaurants.add(restaurant);
         Restaurant restaurant1 = new Restaurant(true, "akbarjooje2", "karaj", new Menu());
-        restaurant1.getMenu().setFoods(initializeFood()[1]);
+        restaurant1.getMenu().setFoods(new ArrayList<>(initializeFood()[1]));
         Time[] workHours1 = {new Time(7), new Time(14), new Time(16), new Time(21)};
         restaurant1.setWorkHours(workHours1);
         restaurant1.addComments("Good");
@@ -137,6 +148,9 @@ public class Main {
         Customer customer = new Customer("093645675206", "Qom", new Order());
         Customer customer1 = new Customer("0936256402061", "Tehran", new Order());
         Customer customer2 = new Customer("09116805096", "Karaj", new Order());
+        customer.setShare(new Share());
+        customer1.setShare(new Share());
+        customer2.setShare(new Share());
         customer.setPassWord("1234567");
         customer.setUserName("1234567");
         customer1.setPassWord("12345678");
@@ -149,7 +163,7 @@ public class Main {
         return customers;
     }
 
-    public ArrayList<Share> initializeShare() {
+    public static ArrayList<Share> initializeShare() {
         ArrayList<Share> shares = new ArrayList<>();
         shares.add(new Share(1, 60));
         shares.add(new Share(2, 85));
@@ -159,15 +173,17 @@ public class Main {
         return shares;
     }
 
-    public ArrayList<SuperMarket> initializeSuperMarkets() {
-        ArrayList<SuperMarket> superMarkets;
+    public static ArrayList<SuperMarket> initializeSuperMarkets() {
+        ArrayList<SuperMarket> superMarkets = new ArrayList<>();
         Time[] wokTime = new Time[2];
         wokTime[0] = new Time(9);
         wokTime[1] = new Time(21);
-        SuperMarket superMarket = new SuperMarket(true, "Brother", "babol", wokTime);
-        SuperMarket superMarket1 = new SuperMarket(true, "hajojbab", "tehran", wokTime);
-        superMarket.setOrder(new SuperMarketOrder());
-        superMarket1.setOrder(new SuperMarketOrder());
+        SuperMarket superMarket = new SuperMarket(true, "Brother", "babol");
+        superMarket.setWorkHours(wokTime);
+        SuperMarket superMarket1 = new SuperMarket(true, "haji baba", "tehran");
+        superMarket1.setWorkHours(wokTime);
+        superMarket.setOrder(new ArrayList<>());
+        superMarket1.setOrder(new ArrayList<>());
         superMarket.setShares(initializeShare());
         superMarket1.setShares(initializeShare());
         superMarket.setComments(new ArrayList<>());
@@ -180,10 +196,26 @@ public class Main {
         ArrayList<OrderRange> orderRange = initializeOrderRange(wokTime[0].getHour(), wokTime[1].getHour());
         superMarket.setOrderRanges(orderRange);
         superMarket1.setOrderRanges(orderRange);
-        return null;
+        superMarket.setMenu(new Menu(initializeStuffs()));
+        superMarket1.setMenu(new Menu(initializeStuffs()));
+        superMarkets.add(superMarket);
+        superMarkets.add(superMarket1);
+        return superMarkets;
     }
 
-    private ArrayList<OrderRange> initializeOrderRange(int startTime, int endTime) {
+    private static ArrayList<Thing> initializeStuffs() {
+
+        ArrayList<Thing> things = new ArrayList<>();
+
+        things.add(new Stuff("chips", StuffStatus.AVAILABLE, 15, 10));
+        things.add(new Stuff("iceCream", StuffStatus.AVAILABLE, 15, 6));
+        things.add(new Stuff("jele", StuffStatus.AVAILABLE, 15, 7));
+        things.add(new Stuff("poshack", StuffStatus.AVAILABLE, 15, 8));
+
+        return things;
+    }
+
+    private static ArrayList<OrderRange> initializeOrderRange(int startTime, int endTime) {
         ArrayList<OrderRange> orderRanges = new ArrayList<>();
         ArrayList<DeliverMan> deliverMEN = initializeDeliverMen();
         orderRanges.add(new OrderRange(9, 10, initializeDeliverMen(), 5000));
@@ -225,8 +257,63 @@ public class Main {
         return null;
     }
 
-    public static ArrayList<Thing> castStuffToThing(ArrayList<Stuff> stuffs) {
-        return new ArrayList<>(stuffs);
+//    public static ArrayList<Thing> castStuffToThing(ArrayList<Stuff> stuffs) {
+//        return new ArrayList<>(stuffs);
+//    }
+
+    public static ArrayList<FruitShop> initializeFruitShop() {
+        Time[] times = new Time[2];
+        times[0] = new Time(10);
+        times[1] = new Time(22);
+        ArrayList<OrderRange> orderRange = initializeFruitShopOrderRange();
+        ArrayList<FruitShop> fruitShops = new ArrayList<>();
+        FruitShop fruitShop = new FruitShop("hamid", "Tehran", true);
+        fruitShop.setWorkHours(times);
+//        fruitShop.setScore(9);
+        FruitShop fruitShop1 = new FruitShop("mammad", "Babol", true);
+        fruitShop1.setWorkHours(times);
+
+        fruitShop.setMenu(initializeFruitShopMenu());
+
+        fruitShop1.setMenu(initializeFruitShopMenu());
+        fruitShop.setComments(new ArrayList<>());
+        fruitShop1.setComments(new ArrayList<>());
+        fruitShop.setOrderRanges(orderRange);
+        fruitShop1.setOrderRanges(orderRange);
+        fruitShops.add(fruitShop);
+        fruitShops.add(fruitShop1);
+        return fruitShops;
+    }
+
+    private static ArrayList<OrderRange> initializeFruitShopOrderRange() {
+        ArrayList<OrderRange> orderRanges = new ArrayList<>();
+        ArrayList<DeliverMan> deliverMEN = initializeDeliverMen();
+        orderRanges.add(new OrderRange(9, 11, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(11, 13, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(13, 15, initializeDeliverMen(), 5000));
+        DeliverMan steve = new DeliverMan("Motor", Salary.PER_HOUR, true,
+                new ArrayList<>(), new ArrayList<>());
+        deliverMEN.add(steve);
+        orderRanges.add(new OrderRange(15, 17, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(17, 19, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(19, 21, initializeDeliverMen(), 5000));
+        orderRanges.add(new OrderRange(21, 22, initializeDeliverMen(), 5000));
+
+        return orderRanges;
+    }
+
+    private static Menu initializeFruitShopMenu() {
+
+        Menu menu = new Menu();
+        ArrayList<Thing> fruits = new ArrayList<>();
+        fruits.add(new Fruit("pear", 60, new ArrayList<>(), 8));
+        fruits.add(new Fruit("Orange", 70, new ArrayList<>(), 10));
+        fruits.add(new Fruit("Water Melon", 100, new ArrayList<>(), 12));
+        fruits.add(new Fruit("peach", 60, new ArrayList<>(), 15));
+
+
+        menu.setFoods(fruits);
+        return menu;
     }
 
 }

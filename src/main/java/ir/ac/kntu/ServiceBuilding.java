@@ -1,5 +1,6 @@
 package ir.ac.kntu;
 
+import ir.ac.kntu.food.Menu;
 import ir.ac.kntu.food.Order;
 import ir.ac.kntu.person.DeliverMan;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 
 public class ServiceBuilding {
 
+    private Menu menu;
     private boolean status;
     private String name;
     private String address;
@@ -14,11 +16,61 @@ public class ServiceBuilding {
     private int score = 5;
     private ArrayList<String> comments;
     private ArrayList<DeliverMan> deliverMEN;
+    private ArrayList<Order> orders;
+
+    public <E extends ServiceBuilding> ServiceBuilding(boolean b, String name, String address, Menu menu, ArrayList<String> comments,
+                                                       ArrayList<DeliverMan> deliverMEN) {
+        this.name = name;
+        this.address = address;
+        this.status = b;
+        this.menu = menu;
+        this.comments = comments;
+        this.deliverMEN = deliverMEN;
+    }
+
+    public ServiceBuilding(boolean status, String name, String address, Menu menu) {
+        this.status = status;
+        this.name = name;
+        this.address = address;
+        this.menu = menu;
+    }
+
+    public ServiceBuilding(boolean status, String name, String address) {
+        this.status = status;
+        this.name = name;
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + "{" +
+                "address='" + getAddress() + '\'' +
+                ", workHours{" + "Days :" + getWorkHours()[0].toString() + " to " + getWorkHours()[1].toString() +
+                /*", Evening :" + super.getWorkHours()[2].toString() + " to " + super.getWorkHours()[3].toString() +*/
+                ", score=" + getScore() +
+                '}';
+    }
 
 //    public ArrayList<String> getComments() {
 //        return comments;
 //    }
 
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public ArrayList<Order> getOrder() {
+        return new ArrayList<>(orders);
+    }
+
+    public void setOrder(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
 
     public ArrayList<DeliverMan> getDeliverMEN() {
         return new ArrayList<>(deliverMEN);
@@ -74,6 +126,13 @@ public class ServiceBuilding {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void addOrder(Order order) {
+        if (orders == null) {
+            orders = new ArrayList<>();
+        }
+        this.orders.add(order);
     }
 
     public void addComments(String comment) {

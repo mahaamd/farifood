@@ -13,7 +13,7 @@ public class Order {
 //    private ArrayList<Food> foods;
 //
     private ArrayList<Thing> things;
-    private List<? extends Thing> newThing;
+    //private List<? extends Thing> newThing;
 
 //    public Order() {
 //        foods = new ArrayList<>();
@@ -33,9 +33,9 @@ public class Order {
 
 
 
-    public void setNewThing(List<? extends Thing> newThing) {
-        this.newThing = newThing;
-    }
+//    //ublic void setNewThing(List<? extends Thing> newThing) {
+//        this.newThing = newThing;
+//    }
 
     public void setThings(ArrayList<Thing> things) {
         this.things = things;
@@ -54,22 +54,22 @@ public class Order {
         return food;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Order order = (Order) o;
-        return status == order.status && Objects.equals(things, order.things) && Objects.equals(newThing, order.newThing);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(status, things, newThing);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) {
+//            return true;
+//        }
+//        if (o == null || getClass() != o.getClass()) {
+//            return false;
+//        }
+//        Order order = (Order) o;
+//        return status == order.status && Objects.equals(things, order.things) && Objects.equals(newThing, order.newThing);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(status, things, newThing);
+//    }
 
     public void add(Thing thing) {
         things.add(thing);

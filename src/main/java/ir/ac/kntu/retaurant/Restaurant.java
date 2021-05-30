@@ -24,24 +24,26 @@ public class Restaurant extends ServiceBuilding {
 //    private ArrayList<String> comments;
 
     public Restaurant(boolean status, String name, String address, Menu menu) {
+        super(status, name, address, menu);
         super.setStatus(status);
         super.setName(name);
         super.setAddress(address);
         this.menu = menu;
     }
 
-    public Restaurant(boolean status, String name, String address, Menu menu, ArrayList<DeliverMan> deliverMEN, ArrayList<String> comments) {
-        super.setStatus(status);
-        super.setName(name);
-        super.setAddress(address);
-        this.menu = menu;
-        super.setDeliverMEN(deliverMEN);
-        super.setComments(comments);
+    public Restaurant(boolean status, String name, String address, Menu menu, ArrayList<String> objects, ArrayList<DeliverMan> objects1) {
+        super(status, name, address, menu, objects, objects1);
     }
 
-    public Restaurant() {
+//    public Restaurant(boolean status, String name, String address, Menu menu, ArrayList<DeliverMan> deliverMEN, ArrayList<String> comments) {
+//        super.setStatus(status);
+//        super.setName(name);
+//        super.setAddress(address);
+//        this.menu = menu;
+//        super.setDeliverMEN(deliverMEN);
+//        super.setComments(comments);
+//    }
 
-    }
 
     public void setMenu(Menu menu) {
         this.menu = menu;
@@ -99,15 +101,15 @@ public class Restaurant extends ServiceBuilding {
 //        this.deliverMEN = deliverMEN;
 //    }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "address='" + super.getAddress() + '\'' +
-                ", workHours{" + "Days :" + super.getWorkHours()[0].toString() + " to " + super.getWorkHours()[1].toString() +
-                ", Evening :" + super.getWorkHours()[2].toString() + " to " + super.getWorkHours()[3].toString() +
-                ", score=" + super.getScore() +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "address='" + super.getAddress() + '\'' +
+//                ", workHours{" + "Days :" + super.getWorkHours()[0].toString() + " to " + super.getWorkHours()[1].toString() +
+//                /*", Evening :" + super.getWorkHours()[2].toString() + " to " + super.getWorkHours()[3].toString() +*/
+//                ", score=" + super.getScore() +
+//                '}';
+//    }
 
 //    public void showComments() {
 //        for (int i = 0; i < comments.size(); i++) {
