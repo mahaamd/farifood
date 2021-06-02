@@ -21,12 +21,14 @@ public class Fruit extends Thing {
         setComments(comments);
     }
 
-    public <E> Fruit(String  name, int price, ArrayList<String> comments, int count) {
+    public Fruit(String  name, int price, ArrayList<String> comments, int count, int score) {
         super();
         setName(name);
         setPrice(price);
         setComments(comments);
         setCount(count);
+        setScore(score);
+
     }
 
     public double getKg() {

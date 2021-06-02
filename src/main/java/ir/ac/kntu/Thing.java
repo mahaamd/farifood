@@ -1,15 +1,25 @@
 package ir.ac.kntu;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Thing {
+public class Thing implements Comparable{
 
     private double price;
     private ArrayList<String> comments;
     private String name;
     private double count;
     private int score;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     public double getPrice() {
         return price;
@@ -65,6 +75,11 @@ public class Thing {
     @Override
     public int hashCode() {
         return Objects.hash(count);
+    }
+
+    @Override
+    public int compareTo(@NotNull Object o) {
+        return 0;
     }
 }
 

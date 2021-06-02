@@ -1,8 +1,6 @@
 package ir.ac.kntu.order;
 
 import ir.ac.kntu.food.Order;
-import ir.ac.kntu.retaurant.EditMenu;
-import ir.ac.kntu.retaurant.Fruit;
 
 import java.util.ArrayList;
 

@@ -81,7 +81,7 @@ public class ServiceBuildingWrapper {
 //                }
 //            }
 //        }
-        Collections.sort(foods, (o1, o2) -> (int) (-o2.getPrice() + o1.getPrice()));
+        foods.sort((o1, o2) -> (int) (-o2.getPrice() + o1.getPrice()));
         serviceBuilding.getMenu().setFoods(foods);
     }
 

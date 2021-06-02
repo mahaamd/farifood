@@ -9,18 +9,13 @@ import java.util.Objects;
 public class DeliverMan {
 
     private int id;
-
     private String vehicle;
-
     private Salary salary;
-
     private boolean accessible;
-
     private ArrayList<Order> orders;
-
     private ArrayList<String> comments;
-
     private int score;
+    private int coverage;
 
     public DeliverMan() {
 
@@ -33,6 +28,14 @@ public class DeliverMan {
         this.accessible = accessible;
         this.orders = orders;
         this.comments = comments;
+    }
+
+    public int getCoverage() {
+        return coverage;
+    }
+
+    public void setCoverage(int coverage) {
+        this.coverage = coverage;
     }
 
     public void setId(int id) {

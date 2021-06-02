@@ -2,6 +2,7 @@ package ir.ac.kntu.person;
 
 import ir.ac.kntu.Main;
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.ServiceBuilding;
 import ir.ac.kntu.Thing;
 import ir.ac.kntu.food.Food;
 import ir.ac.kntu.food.Order;
@@ -11,9 +12,6 @@ import ir.ac.kntu.order.OrderRange;
 import ir.ac.kntu.order.SuperMarketOrder;
 import ir.ac.kntu.retaurant.*;
 import ir.ac.kntu.stuffs.Stuff;
-
-import java.io.IOException;
-import java.security.Provider;
 import java.util.ArrayList;
 
 
@@ -122,14 +120,14 @@ public class CustomersHelper {
         return null;
     }
 
-    public void setComment(Restaurant restaurant, DeliverMan deliverMan) {
+    public void setComment(ServiceBuilding serviceBuilding, DeliverMan deliverMan) {
         //int rand = Math.random() + restaurants.size();
         System.out.println("How was The Restaurant Service");
         String resComment = ScannerWrapper.getInstance().nextLine();
-        restaurant.addComments(resComment);
+        serviceBuilding.addComments(resComment);
         System.out.println("What would you Give The Restaurant(from 1 to 10)");
         int restaurantRate = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
-        restaurant.setScore(restaurantRate);
+        serviceBuilding.setScore(restaurantRate);
         System.out.println("How was the Delivery ?");
         String delComment = ScannerWrapper.getInstance().nextLine();
         //restaurant.getDeliverMEN().get(deliverMan).addComment(delComment);
@@ -150,7 +148,7 @@ public class CustomersHelper {
         customers.add(customer);
     }
 
-    public void printCustomers(ArrayList<Customer> customers) {
+    public void printCustomers(ArrayList<? extends User> customers) {
         for (int i = 0; i < customers.size(); i++) {
             System.out.println("Customer Number " + i + " Is");
             System.out.println(customers.get(i));
@@ -180,11 +178,11 @@ public class CustomersHelper {
     }
 
     public void showCustomerOrderHistory(ArrayList<Customer> customers) {
-        Customer customer = chooseCustomer(customers);
+        Customer customer =(Customer) chooseCustomer(customers);
         customer.printOrder();
     }
 
-    private Customer chooseCustomer(ArrayList<Customer> customers) {
+    private  User chooseCustomer(ArrayList<? extends User> customers) {
         printCustomers(customers);
         System.out.println("Choose One");
         int choice = ScannerWrapper.getInstance().nextInt();

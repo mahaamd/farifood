@@ -1,6 +1,8 @@
 package ir.ac.kntu.person;
 
+import ir.ac.kntu.FerryFoodOnlineMenu;
 import ir.ac.kntu.ScannerWrapper;
+import ir.ac.kntu.ServiceBuilding;
 import ir.ac.kntu.retaurant.Restaurant;
 import ir.ac.kntu.retaurant.ServiceBuildingWrapper;
 
@@ -25,7 +27,7 @@ public class MangeDeliverMan {
         }
     }
 
-    public void addDeliverMan(ArrayList<Restaurant> restaurants, ArrayList<DeliverMan> deliverMEN) {
+    public void addDeliverMan(ServiceBuilding serviceBuilding, ArrayList<DeliverMan> deliverMEN) {
         DeliverMan deliverMan = new DeliverMan();
         System.out.println("Enter Desired Vehicle");
         String vehicle = ScannerWrapper.getInstance().nextLine();
@@ -37,17 +39,19 @@ public class MangeDeliverMan {
         String accessible = ScannerWrapper.getInstance().nextLine();
         deliverMan.setAccessible(accessible.toLowerCase(Locale.ROOT).equals("accessible"));
         deliverMan.setComments(new ArrayList<>());
-        System.out.println("***************" + "addRestaurant" + "***************");
-        System.out.println("Choose 2 Restaurant For Your DeliverMan");
-        ServiceBuildingWrapper.printRestaurant(new ArrayList<>(restaurants));
-        System.out.print("Restaurant number One: ");
-        int choice1 = ScannerWrapper.getInstance().nextInt();
-        System.out.print("Restaurant Number Two: ");
-        int choice2 = ScannerWrapper.getInstance().nextInt();
-        restaurants.get(choice1).addDeliverMan(deliverMan);
-        restaurants.get(choice2).addDeliverMan(deliverMan);
+//        System.out.println("***************" + "addRestaurant" + "***************");
+//        System.out.println("Choose 2 Building For Your DeliverMan");
+//        ServiceBuildingWrapper.printRestaurant(FerryFoodOnlineMenu.getServiceBuildings());
+//        System.out.print("Building number One: ");
+//        int choice1 = ScannerWrapper.getInstance().nextInt();
+//        System.out.print("Building Number Two: ");
+//        int choice2 = ScannerWrapper.getInstance().nextInt();
+//        FerryFoodOnlineMenu.getServiceBuildings().get(choice1).addDeliverMan(deliverMan);
+//        FerryFoodOnlineMenu.getServiceBuildings().get(choice2).addDeliverMan(deliverMan);
         deliverMan.setOrders(new ArrayList<>());
         deliverMEN.add(deliverMan);
+        serviceBuilding.addDeliverMan(deliverMan);
+        deliverMan.setCoverage(deliverMan.getCoverage() + 1);
     }
 
     public void update(DeliverMan deliverMan) {

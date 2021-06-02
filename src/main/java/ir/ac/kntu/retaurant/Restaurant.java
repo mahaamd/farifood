@@ -131,17 +131,17 @@ public class Restaurant extends ServiceBuilding {
 //        return false;
 //    }
 
-    public void editScore() {
-        System.out.println("Current Score ==" + super.getScore());
-        System.out.println("Enter New Score");
-        int score = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
-        setScore(score);
-    }
-
-    public void editName() {
-        System.out.println("Enter new Name");
-        super.setName(ScannerWrapper.getInstance().nextLine());
-    }
+//    public void editScore() {
+//        System.out.println("Current Score ==" + super.getScore());
+//        System.out.println("Enter New Score");
+//        int score = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
+//        setScore(score);
+//    }
+//
+//    public void editName() {
+//        System.out.println("Enter new Name");
+//        super.setName(ScannerWrapper.getInstance().nextLine());
+//    }
 
 //    public void addDeliverMan(DeliverMan deliverMan) {
 //        deliverMEN.add(deliverMan);
