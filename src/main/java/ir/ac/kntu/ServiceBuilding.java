@@ -3,10 +3,11 @@ package ir.ac.kntu;
 import ir.ac.kntu.food.Menu;
 import ir.ac.kntu.food.Order;
 import ir.ac.kntu.person.DeliverMan;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class ServiceBuilding {
+public class ServiceBuilding implements Comparable<ServiceBuilding> {
 
     private Menu menu;
     private boolean status;
@@ -39,6 +40,11 @@ public class ServiceBuilding {
         this.status = status;
         this.name = name;
         this.address = address;
+    }
+
+    @Override
+    public int compareTo(@NotNull ServiceBuilding o) {
+        return this.score - o.getScore();
     }
 
     @Override
@@ -166,9 +172,30 @@ public class ServiceBuilding {
         deliverMEN.get(whichDeliverMan).addOrder(newOrder);
     }
 
-    public void printDeliverMan() {
-        for (DeliverMan d : deliverMEN) {
-            System.out.println(d);
-        }
+//    public void printDeliverMan() {
+//        for (DeliverMan d : deliverMEN) {
+//            System.out.println(d);
+//        }
+//    }
+
+    //    public<T> void editScore(T anonymous) {
+//        System.out.println("Current Score ==" + getScore());
+//        System.out.println("Enter New Score");
+//        int score = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
+//        setScore(score);
+//    }
+//
+    public void editName() {
+        System.out.println("Enter new Name");
+        setName(ScannerWrapper.getInstance().nextLine());
     }
+
+    public void editScore() {
+        System.out.println("Current Score ==" + getScore());
+        System.out.println("Enter New Score");
+        int score = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
+        setScore(score);
+    }
+
+
 }
