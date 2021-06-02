@@ -23,6 +23,14 @@ public class Customer extends User {
         this.share = share;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     //    public Customer(String userName, String passWord) {
 //        super(userName, passWord);
 //    }
