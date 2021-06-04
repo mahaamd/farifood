@@ -152,6 +152,7 @@ public class ServiceBuildingWrapper {
         ServiceBuilding newOne = chooseCast(serviceBuilding, name, address, menu);
         //new ServiceBuilding(true, name, address, new Menu(new ArrayList<>(foodNames)), new ArrayList<>(), new ArrayList<>());
         newOne.setWorkHours(workTime);
+        FerryFoodOnlineMenu.getServiceBuildings().add(newOne);
         //newOne.addOrder(new Order());
         return newOne;
     }

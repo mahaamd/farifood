@@ -1,5 +1,6 @@
 package ir.ac.kntu.person;
 
+import ir.ac.kntu.Main;
 import ir.ac.kntu.food.Order;
 
 import java.util.ArrayList;
@@ -77,5 +78,11 @@ public class Customer extends User {
             System.out.println("Order number" + i + 1);
             System.out.println(orders.getThings().get(i));
         }
+    }
+
+    public void showDetails() {
+        System.out.println("Phone Number" + phoneNumber);
+        System.out.println("Address" + address);
+        Main.print(orders.getThings());
     }
 }

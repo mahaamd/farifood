@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        //TODO: DO NOT FORGET TO CHANGE THIS TO User
+        //TODO: do not forget to add special share
         FerryFoodOnlineMenu.setServiceBuildings(new ArrayList<>());
 //        Admin admin = new Admin("admin", "Admin");
         ArrayList<? extends ServiceBuilding> fruitShops = initializeFruitShop();

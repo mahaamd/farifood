@@ -1,17 +1,13 @@
 package ir.ac.kntu.person;
 
-import ir.ac.kntu.Main;
-import ir.ac.kntu.ScannerWrapper;
-import ir.ac.kntu.ServiceBuilding;
-import ir.ac.kntu.Thing;
-import ir.ac.kntu.food.Food;
+import ir.ac.kntu.*;
 import ir.ac.kntu.food.Order;
 import ir.ac.kntu.food.OrderStatus;
 import ir.ac.kntu.order.FruitShopOrder;
 import ir.ac.kntu.order.OrderRange;
 import ir.ac.kntu.order.SuperMarketOrder;
 import ir.ac.kntu.retaurant.*;
-import ir.ac.kntu.stuffs.Stuff;
+
 import java.util.ArrayList;
 
 
@@ -22,13 +18,15 @@ public class CustomersHelper {
     public CustomersHelper() {
     }
 
-    public void manageCustomerOrders(ArrayList<Restaurant> restaurants, ArrayList<Order> orders) {
-
-        Restaurant restaurant = (Restaurant) ServiceBuildingWrapper.chooseServiceBuilding(new ArrayList<>(restaurants));
+    public void manageRestaurantOrders(ArrayList<Restaurant> restaurants, ArrayList<Order> orders, Customer customer) {
+        Restaurant restaurant = (Restaurant) ServiceBuildingWrapper.chooseServiceBuilding(restaurants);
         restaurant.getMenu().printMenu();
         System.out.println("Which Food Do You Want?");
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         //restaurants.get(options).setMenu(new Menu());
+        Order order = new Order();
+        order.add(restaurant.getMenu().getFoods().get(choice));
+        customer.addOrder(order);
         setOrderStatus(restaurant, restaurant.getMenu().getFoods().get(choice), orders);
     }
 
@@ -40,80 +38,79 @@ public class CustomersHelper {
         orders.add(order);
     }
 
-    public boolean manageOrderStatus(ArrayList<Restaurant> restaurants, ArrayList<Order> orders, ArrayList<Customer> customers) {
-        //newCustomerOrder(customers);
+    public String manageOrderStatus(ArrayList<Order> orders, Customer customer) {
+        //newCustomerOrder(customer);
         //TODO: change this part so you can manage error more suitable
-        if (orders.size() == 0) {
-            return false;
+        if (orders.size() == 0 || customer.getOrders().getThings().size() == 0 || customer.getOrders().getThings() == null) {
+            return "No order First Order sth";
         }
-        Order order = chooseOrderToChangeStatus(orders);
-        Restaurant restaurant = findOrderInRestaurant(restaurants, order);
-        if (restaurant == null) {
-            return false;
+        Order order = customer.getOrders();
+        ServiceBuilding serviceBuilding = findOrderInRestaurant(FerryFoodOnlineMenu.getServiceBuildings(), order);
+        if (serviceBuilding == null) {
+            return "No order First Order sth";
         }
         String status;
         System.out.print("New Status: ");
         status = ScannerWrapper.getInstance().nextLine();
         if (!status.equals("Sending") && !status.equals("Delivered") && !status.equals("In Process")) {
-            return false;
+            manageOrderStatus(orders, customer);
         }
         if (status.equals("Sending")) {
-            if (restaurant.checkDeliverManAccessibility()) {
-                setNewStatus(OrderStatus.SENDING, order, restaurant, orders);
+            if (serviceBuilding.checkDeliverManAccessibility()) {
+                setNewStatus(OrderStatus.SENDING, order, serviceBuilding, orders);
             } else {
-                return false;
+                return "No deliver man or Deliver men are not accessible Right Now ";
             }
         }
         if (status.equals("Delivered")) {
-            setNewStatus(OrderStatus.DELIVERED, order, restaurant, orders);
-            DeliverMan deliverMan = addOrder(customers, restaurant, order);
-            setComment(restaurant, deliverMan);
+            setNewStatus(OrderStatus.DELIVERED, order, serviceBuilding, orders);
+            DeliverMan deliverMan = addOrder(customer, serviceBuilding, order);
+            setComment(serviceBuilding, deliverMan);
         }
-        return true;
+        return "Successful";
     }
 
-    private DeliverMan addOrder(ArrayList<Customer> customers,
-                                Restaurant restaurant, Order order) {
-        Customer customer = getRandomCustomer(customers);
+    private DeliverMan addOrder(Customer customer,
+                                ServiceBuilding serviceBuilding, Order order) {
         customer.addOrder(order);
-        DeliverMan deliverMan = getRandomDeliverMan(restaurant, order);
+        DeliverMan deliverMan = getRandomDeliverMan(serviceBuilding, order);
         deliverMan.addOrder(order);
         return deliverMan;
     }
 
 
-    private Customer getRandomCustomer(ArrayList<Customer> customers) {
-        int random = (int) (Math.random() * customers.size());
-        return customers.get(random);
+//    private Customer getRandomCustomer(ArrayList<Customer> customers) {
+//        int random = (int) (Math.random() * customers.size());
+//        return customers.get(random);
+//    }
+
+//    private Order chooseOrderToChangeStatus(ArrayList<Order> orders) {
+//        printInProcessOrders(orders);
+//        System.out.println("Choose an Order To Change Status");
+//        int choice = ScannerWrapper.getInstance().nextInt();
+//        return orders.get(choice);
+//    }
+
+    private DeliverMan getRandomDeliverMan(ServiceBuilding serviceBuilding, Order order) {
+
+        int randomDeliverMan = (int) ((Math.random() * serviceBuilding.getDeliverMEN().size()));
+        serviceBuilding.setDeliverManOrders(order, randomDeliverMan);
+        return serviceBuilding.getDeliverMEN().get(randomDeliverMan);
     }
 
-    private Order chooseOrderToChangeStatus(ArrayList<Order> orders) {
-        printInProcessOrders(orders);
-        System.out.println("Choose an Order To Change Status");
-        int choice = ScannerWrapper.getInstance().nextInt();
-        return orders.get(choice);
-    }
-
-    private DeliverMan getRandomDeliverMan(Restaurant restaurant, Order order) {
-
-        int randomDeliverMan = (int) ((Math.random() * restaurant.getDeliverMEN().size()));
-        restaurant.setDeliverManOrders(order, randomDeliverMan);
-        return restaurant.getDeliverMEN().get(randomDeliverMan);
-    }
-
-    private void setNewStatus(OrderStatus status, Order order, Restaurant restaurant, ArrayList<Order> orders) {
-        restaurant.deleteOrder(order);
+    private void setNewStatus(OrderStatus status, Order order, ServiceBuilding serviceBuilding, ArrayList<Order> orders) {
+        serviceBuilding.deleteOrder(order);
         orders.remove(order);
         order.setStatus(status);
-        restaurant.addOrder(order);
+        serviceBuilding.addOrder(order);
         orders.add(order);
     }
 
-    private Restaurant findOrderInRestaurant(ArrayList<Restaurant> restaurants, Order order) {
-        for (Restaurant r : restaurants) {
-            for (Order o : r.getOrders()) {
+    private ServiceBuilding findOrderInRestaurant(ArrayList<? extends ServiceBuilding> serviceBuildings, Order order) {
+        for (ServiceBuilding s : serviceBuildings) {
+            for (Order o : s.getOrders()) {
                 if (o.equals(order)) {
-                    return r;
+                    return s;
                 }
             }
         }
@@ -155,15 +152,13 @@ public class CustomersHelper {
         }
     }
 
-    public void updateCustomer(ArrayList<Customer> customers) {
-        printCustomers(customers);
-        System.out.println("Choose Customer To Update");
-        int choice = ScannerWrapper.getInstance().nextInt();
+    public void updateCustomer(Customer customer) {
         System.out.println("Enter New Phone number ");
-        customers.get(choice).setPhoneNumber(ScannerWrapper.getInstance().nextLine());
+        customer.setPhoneNumber(ScannerWrapper.getInstance().nextLine());
         System.out.println("Enter New Address  ");
-        customers.get(choice).setAddress(ScannerWrapper.getInstance().nextLine());
-        customers.get(choice).setOrders(new Order());
+        customer.setAddress(ScannerWrapper.getInstance().nextLine());
+        customer.setOrders(new Order());
+        customer.setShare(new Share());
     }
 
     public void printInProcessOrders(ArrayList<Order> orders) {
@@ -177,12 +172,7 @@ public class CustomersHelper {
         }
     }
 
-    public void showCustomerOrderHistory(ArrayList<Customer> customers) {
-        Customer customer =(Customer) chooseCustomer(customers);
-        customer.printOrder();
-    }
-
-    private  User chooseCustomer(ArrayList<? extends User> customers) {
+    private User chooseCustomer(ArrayList<? extends User> customers) {
         printCustomers(customers);
         System.out.println("Choose One");
         int choice = ScannerWrapper.getInstance().nextInt();
@@ -218,7 +208,6 @@ public class CustomersHelper {
                 if (count < fruitShopOrder.getMaximumAmountPerOrder()) {
                     orders.add(fruits.get(Integer.parseInt(input)));
                     fruits.get(Integer.parseInt(input)).setCount(Integer.parseInt(input) + input1);
-                    System.out.println(fruits.get(Integer.parseInt(input)).getCount() + "cccccccccccccccccccccccc");
                     count++;
                 }
             }
@@ -230,19 +219,13 @@ public class CustomersHelper {
         }
     }
 
-    public void makeOrder(ArrayList<SuperMarket> superMarkets, Customer customer) {
-        //ServiceBuildingWrapper.printRestaurant(superMarkets);
-//        double cost = 0;
+    public void makeSuperMarketOrder(ArrayList<SuperMarket> superMarkets, Customer customer, ArrayList<Order> orders) {
         SuperMarketOrder superMarketOrder = new SuperMarketOrder();
-        SuperMarket superMarket = (SuperMarket) ServiceBuildingWrapper
-                .chooseServiceBuilding(new ArrayList<>(superMarkets));
-//            superMarkets.remove(superMarket);
+        SuperMarket superMarket = (SuperMarket) ServiceBuildingWrapper.chooseServiceBuilding(superMarkets);
         ArrayList<Thing> stuffs0 = chooseStuff(superMarket.getMenu().getFoods());
         OrderRange orderRange = ServiceBuildingWrapper.printOrderRange(superMarket.getOrderRanges());
         Main.print(stuffs0);
-//        ArrayList<Thing> stuffs = superMarket.getMenu().getFoods();
-        Order orders = new Order();
-        //orders.setNewThing(stuffs);
+        Order order = new Order();
         if (!customer.getShare().isBought()) {
             superMarketOrder.setDeliveryCost(superMarketOrder.getDeliveryCost() + totalCost(stuffs0) + orderRange.getCost());
         }
@@ -250,11 +233,12 @@ public class CustomersHelper {
         System.out.println("Buy?");
         if (ScannerWrapper.getInstance().nextLine().equalsIgnoreCase("yes")) {
             orderRange.setCurrentCapacity(orderRange.getCurrentCapacity() + 1);
-            orders.setThings(stuffs0);
-            customer.addOrder(orders);
-            superMarket.addOrder(orders);
+            order.setThings(stuffs0);
+            customer.addOrder(order);
+            superMarket.addOrder(order);
             reduceCount(stuffs0, superMarket);
-            orderRange.getDeliverMEN().get((int) (Math.random() * orderRange.getDeliverMEN().size())).addOrder(orders);
+            orders.add(order);
+            orderRange.getDeliverMEN().get((int) (Math.random() * orderRange.getDeliverMEN().size())).addOrder(order);
         }
     }
 

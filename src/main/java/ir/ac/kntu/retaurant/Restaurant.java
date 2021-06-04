@@ -151,9 +151,9 @@ public class Restaurant extends ServiceBuilding {
 //        deliverMEN.get(whichDeliverMan).addOrder(newOrder);
 //    }
 
-    public void deleteOrder(Order order) {
-        orders.remove(order);
-    }
+//    public void deleteOrder(Order order) {
+//        orders.remove(order);
+//    }
 
     public void showOrderHistory() {
         for (Order o : orders) {

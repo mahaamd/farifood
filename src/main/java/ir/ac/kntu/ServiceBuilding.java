@@ -42,6 +42,14 @@ public class ServiceBuilding implements Comparable<ServiceBuilding> {
         this.address = address;
     }
 
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
+
     @Override
     public int compareTo(@NotNull ServiceBuilding o) {
         return this.score - o.getScore();
@@ -197,5 +205,8 @@ public class ServiceBuilding implements Comparable<ServiceBuilding> {
         setScore(score);
     }
 
+    public void deleteOrder(Order order) {
+        orders.remove(order);
+    }
 
 }

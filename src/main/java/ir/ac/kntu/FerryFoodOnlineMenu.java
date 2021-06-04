@@ -6,6 +6,8 @@ import ir.ac.kntu.person.*;
 import ir.ac.kntu.retaurant.*;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class FerryFoodOnlineMenu {
 
@@ -22,6 +24,7 @@ public class FerryFoodOnlineMenu {
     private ArrayList<SuperMarket> superMarkets;
     private ArrayList<FruitShop> fruitShops;
     private static ArrayList<ServiceBuilding> serviceBuildings;
+    private ArrayList<Share> shares;
 
     public FerryFoodOnlineMenu() {
 
@@ -99,15 +102,42 @@ public class FerryFoodOnlineMenu {
     }
 
 
-    public void customerMenu(Customer customer) {
-        customersHelper.manageCustomerOrders(restaurants, orders);//TODO:check if you need to add new menu for this in this part
-        customersHelper.showCustomerOrderHistory(customers);
-        //TODO: Add Share
+    public void customerMenu(Customer customer) throws InputMismatchException {
+        System.out.println("Sign up");
+        System.out.println("Login");
+        try {
+            int customerChoice = ScannerWrapper.getInstance().nextInt();
+            if (customerChoice == 1) {
+                customersHelper.makeNewCustomer(customers);
+                customerMenu(customer);
+            } else if (customerChoice == 2) {
+                manageCustomer(customer);
+                customerMenu(customer);
+            } else {
+                System.out.println("Wrong Input");
+                customerMenu(customer);
+            }
+        } catch (InputMismatchException i) {
+            System.out.println("Watch Your input");
+            customerMenu(customer);
+        }
+
 //        SuperMarketOrder superMarketOrder = new SuperMarketOrder();
 //        SuperMarketOrder.SuperMarketOrderHelper superMarketOrderHelper = superMarketOrder.new SuperMarketOrderHelper();
 //        superMarketOrderHelper.makeOrder();
     }
 
+    private void buySpecialShare(Customer customer) throws InputMismatchException {
+        try {
+            System.out.println("Choose One");
+            Main.print(shares);
+            System.out.println("Choose One");
+            customer.setShare(shares.get(ScannerWrapper.getInstance().nextInt()));
+        } catch (InputMismatchException i) {
+            System.out.println("Wrong Input");
+            buySpecialShare(customer);
+        }
+    }
 
     public void adminMenu(Admin admin) {
         System.out.println("Enter 1 For Manage FruitShops" +
@@ -130,67 +160,57 @@ public class FerryFoodOnlineMenu {
 
     }
 
-    public void customerStartingMenu() {
+    private void manageCustomer(Customer customer) {
         //CustomersHelper customersHelper = new CustomersHelper();
-        System.out.println("1: Make Order");
-        System.out.println("2: Manage Order");
-        System.out.println("3: Manage Customer");
-        System.out.println("4: Buy special Share For Super Markets");
-        System.out.println("4: return");
-        int choice = ScannerWrapper.getInstance().nextInt();
-        switch (choice) {
-            case 1:
-                customersHelper.manageCustomerOrders(restaurants, orders);
-                customerStartingMenu();
-                break;
-            case 2:
-                boolean noMatch = customersHelper.manageOrderStatus(restaurants, orders, customers);
-                if (!noMatch) {
-                    System.out.println("No Order found Or DeliverMan Does Not exist now" +
-                            " Make Sure You Have Made an Order or Not");
-                }
-                customerStartingMenu();
-                break;
-            case 3:
-                manageCustomer();
-                customerStartingMenu();
-                break;
-            case 4:
-                return;
-            default:
-                System.out.println("Wrong Input");
-                customerStartingMenu();
-        }
-    }
-
-    private void manageCustomer() {
-        //CustomersHelper customersHelper = new CustomersHelper();
-        System.out.println("1: Add new Customer");
-        System.out.println("2: Update Customers");
-        System.out.println("3: Show Entered Customers");
-        System.out.println("4: show Customers Order History");
+        System.out.println("1: Show details");
+        System.out.println("2: Update Customer info");
+        System.out.println("3: Manage order");
+        System.out.println("4: Buy Special Share for superMarket");
         System.out.println("5 :return");
         int choice = ScannerWrapper.getInstance().nextInt();
         switch (choice) {
             case 1:
-                customersHelper.makeNewCustomer(customers);
-                manageCustomer();
+                customer.showDetails();
+                manageCustomer(customer);
                 break;
             case 2:
-                customersHelper.updateCustomer(customers);
-                manageCustomer();
+                customersHelper.updateCustomer(customer);
+                manageCustomer(customer);
                 break;
             case 3:
-                customersHelper.printCustomers(customers);
-                manageCustomer();
+                makeOrder(customer);
+                manageCustomer(customer);
                 break;
             case 4:
-                customersHelper.showCustomerOrderHistory(customers);
+                buySpecialShare(customer);//TODO: Complete this menu
             case 5:
                 return;
             default:
                 System.out.println("Oops Try Again");
-                manageCustomer();
+                manageCustomer(customer);
+        }
+    }
+
+    private void makeOrder(Customer customer) {
+        System.out.println("Super Market");
+        System.out.println("Restaurant");
+        System.out.println("Fruit Shop");
+        System.out.println("Manage Order Status");
+        int choice = ScannerWrapper.getInstance().nextInt();
+        switch (choice) {
+            case 1:
+                customersHelper.makeSuperMarketOrder(superMarkets, customer, orders);
+                makeOrder(customer);
+            case 2:
+                customersHelper.manageRestaurantOrders(restaurants, orders, customer);
+            case 3:
+                customersHelper.makeSuperMarketOrder(superMarkets, customer, orders);
+            case 4:
+                System.out.println(customersHelper.manageOrderStatus(orders, customer));
+                break;
+            default:
+                System.out.println("Wrong");
+                makeOrder(customer);
         }
     }
 
