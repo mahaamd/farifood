@@ -75,15 +75,6 @@ public class FerryFoodOnlineMenu {
         this.customers = customers;
     }
 
-//    public void preStartMenu(User user) {
-//        System.out.println("1: Admin");
-//        System.out.println("2: Manager");
-//        System.out.println("3: Customer");
-//        int choice = ScannerWrapper.getInstance().nextInt();
-//        useValidation(user,);
-//        handleChoices(choice,);
-//    }
-
 //    public void manageOptions(ArrayList<Restaurant> restaurants) {
 //        printStartingMenu();
 //        int options = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
