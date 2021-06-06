@@ -8,6 +8,7 @@ import ir.ac.kntu.order.OrderRange;
 import ir.ac.kntu.order.SuperMarketOrder;
 import ir.ac.kntu.retaurant.*;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -18,16 +19,20 @@ public class CustomersHelper {
     public CustomersHelper() {
     }
 
-    public void manageRestaurantOrders(ArrayList<Restaurant> restaurants, ArrayList<Order> orders, Customer customer) {
+    public String manageRestaurantOrders(ArrayList<Restaurant> restaurants, ArrayList<Order> orders, Customer customer) {
         Restaurant restaurant = (Restaurant) ServiceBuildingWrapper.chooseServiceBuilding(restaurants);
         restaurant.getMenu().printMenu();
         System.out.println("Which Food Do You Want?");
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
+        if (!checkTime(restaurants.get(choice))) {
+            return "Restaurant is closed now";
+        }
         //restaurants.get(options).setMenu(new Menu());
         Order order = new Order();
         order.add(restaurant.getMenu().getFoods().get(choice));
         customer.addOrder(order);
         setOrderStatus(restaurant, restaurant.getMenu().getFoods().get(choice), orders);
+        return "SuccessFull";
     }
 
     public void setOrderStatus(Restaurant restaurant, Thing food, ArrayList<Order> orders) {
@@ -141,6 +146,10 @@ public class CustomersHelper {
         System.out.println("Enter Address");
         String address = ScannerWrapper.getInstance().nextLine();
         Customer customer = new Customer(phoneNumber, address, new Order());
+        System.out.println("Enter Password");
+        customer.setPassWord(ScannerWrapper.getInstance().nextLine());
+        System.out.println("Enter userName");
+        customer.setUserName(ScannerWrapper.getInstance().nextLine());
         //customer.setOrders(new ArrayList<>());
         customers.add(customer);
     }
@@ -179,16 +188,22 @@ public class CustomersHelper {
         return customers.get(choice);
     }
 
-    public void buyFruit(Customer customer, ArrayList<FruitShop> fruitShops) {
+    public String buyFruit(Customer customer, ArrayList<FruitShop> fruitShops, ArrayList<Order>
+            orders) {
         FruitShopOrder fruitShopOrder = new FruitShopOrder();
 //        ServiceBuildingWrapper.printRestaurant(fruitShops);
-        FruitShop fruitShop = (FruitShop) ServiceBuildingWrapper.chooseServiceBuilding(new ArrayList<>(fruitShops));
+        FruitShop fruitShop = (FruitShop) ServiceBuildingWrapper.chooseServiceBuilding(fruitShops);
+        if (!checkTime(fruitShop)) {
+            return "Fruit Shop is closed";
+        }
         ArrayList<Thing> fruits = chooseStuff(fruitShop.getMenu().getFoods());
         OrderRange orderRange = ServiceBuildingWrapper.printOrderRange(fruitShop.getOrderRanges());
         setFruitAmount(fruitShopOrder, fruits);
         customer.addOrder(fruitShopOrder);
+        orders.add(fruitShopOrder);
         orderRange.getDeliverMEN().get((int) (Math.random() * orderRange.getDeliverMEN().size())).addOrder(fruitShopOrder);
         fruitShop.addOrder(fruitShopOrder);
+        return "SuccessFull";
     }
 
     private void setFruitAmount(FruitShopOrder fruitShopOrder, ArrayList<Thing> fruits) {
@@ -219,9 +234,13 @@ public class CustomersHelper {
         }
     }
 
-    public void makeSuperMarketOrder(ArrayList<SuperMarket> superMarkets, Customer customer, ArrayList<Order> orders) {
+    public String makeSuperMarketOrder(ArrayList<SuperMarket> superMarkets, Customer customer, ArrayList<Order> orders) {
         SuperMarketOrder superMarketOrder = new SuperMarketOrder();
         SuperMarket superMarket = (SuperMarket) ServiceBuildingWrapper.chooseServiceBuilding(superMarkets);
+        if (!checkTime(superMarket)) {
+            return "SuperMarket is closed";
+        }
+        ;
         ArrayList<Thing> stuffs0 = chooseStuff(superMarket.getMenu().getFoods());
         OrderRange orderRange = ServiceBuildingWrapper.printOrderRange(superMarket.getOrderRanges());
         Main.print(stuffs0);
@@ -238,8 +257,15 @@ public class CustomersHelper {
             superMarket.addOrder(order);
             reduceCount(stuffs0, superMarket);
             orders.add(order);
-            orderRange.getDeliverMEN().get((int) (Math.random() * orderRange.getDeliverMEN().size())).addOrder(order);
+            orderRange.getDeliverMEN().get((int) (Math.random() * orderRange.getDeliverMEN().
+                    size())).addOrder(order);
         }
+        return "SuccessFull";
+    }
+
+    private boolean checkTime(ServiceBuilding serviceBuilding) {
+        return serviceBuilding.getWorkHours()[0].getHour() < LocalTime.now().getHour() &&
+                serviceBuilding.getWorkHours()[1].getHour() > LocalTime.now().getHour();
     }
 
     private void reduceCount(ArrayList<Thing> stuffs0, SuperMarket superMarket) {

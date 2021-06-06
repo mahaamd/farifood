@@ -7,7 +7,6 @@ import ir.ac.kntu.retaurant.*;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class FerryFoodOnlineMenu {
 
@@ -36,6 +35,18 @@ public class FerryFoodOnlineMenu {
 
     public static void setServiceBuildings(ArrayList<ServiceBuilding> serviceBuildings) {
         FerryFoodOnlineMenu.serviceBuildings = serviceBuildings;
+    }
+
+    public void setManagers(ArrayList<Manager> managers) {
+        this.managers = managers;
+    }
+
+    public ArrayList<Share> getShares() {
+        return shares;
+    }
+
+    public void setShares(ArrayList<Share> shares) {
+        this.shares = shares;
     }
 
     public void setSuperMarkets(ArrayList<SuperMarket> superMarkets) {
@@ -81,41 +92,9 @@ public class FerryFoodOnlineMenu {
 //        handleChoices(options, restaurants);
 //    }
 
-    public void printStartingMenu() {
-        System.out.println("1: Admin");
-        System.out.println("2: Manager");
-        System.out.println("3: Customer");
-        System.out.println("4: exit");
-    }
 
     public void manager(Manager manager) {
         buildingMenuEdit(manager.getServiceBuilding());
-    }
-
-
-    public void customerMenu(Customer customer) throws InputMismatchException {
-        System.out.println("Sign up");
-        System.out.println("Login");
-        try {
-            int customerChoice = ScannerWrapper.getInstance().nextInt();
-            if (customerChoice == 1) {
-                customersHelper.makeNewCustomer(customers);
-                customerMenu(customer);
-            } else if (customerChoice == 2) {
-                manageCustomer(customer);
-                customerMenu(customer);
-            } else {
-                System.out.println("Wrong Input");
-                customerMenu(customer);
-            }
-        } catch (InputMismatchException i) {
-            System.out.println("Watch Your input");
-            customerMenu(customer);
-        }
-
-//        SuperMarketOrder superMarketOrder = new SuperMarketOrder();
-//        SuperMarketOrder.SuperMarketOrderHelper superMarketOrderHelper = superMarketOrder.new SuperMarketOrderHelper();
-//        superMarketOrderHelper.makeOrder();
     }
 
     private void buySpecialShare(Customer customer) throws InputMismatchException {
@@ -123,7 +102,9 @@ public class FerryFoodOnlineMenu {
             System.out.println("Choose One");
             Main.print(shares);
             System.out.println("Choose One");
-            customer.setShare(shares.get(ScannerWrapper.getInstance().nextInt()));
+            int option = ScannerWrapper.getInstance().nextInt();
+            shares.get(option).setBought(true);
+            customer.setShare(shares.get(option));
         } catch (InputMismatchException i) {
             System.out.println("Wrong Input");
             buySpecialShare(customer);
@@ -183,24 +164,31 @@ public class FerryFoodOnlineMenu {
     }
 
     private void makeOrder(Customer customer) {
-        System.out.println("Super Market");
-        System.out.println("Restaurant");
-        System.out.println("Fruit Shop");
-        System.out.println("Manage Order Status");
+        System.out.println("1: Super Market");
+        System.out.println("2: Restaurant");
+        System.out.println("3: Fruit Shop");
+        System.out.println("4: Manage Order Status");
+        System.out.println("5: Options");
         int choice = ScannerWrapper.getInstance().nextInt();
         switch (choice) {
             case 1:
-                customersHelper.makeSuperMarketOrder(superMarkets, customer, orders);
+                System.out.println(customersHelper.makeSuperMarketOrder(superMarkets, customer, orders));
                 makeOrder(customer);
             case 2:
-                customersHelper.manageRestaurantOrders(restaurants, orders, customer);
+                System.out.println(customersHelper.manageRestaurantOrders(restaurants, orders, customer));
+                makeOrder(customer);
             case 3:
-                customersHelper.makeSuperMarketOrder(superMarkets, customer, orders);
+                System.out.println(customersHelper.buyFruit(customer, fruitShops, orders));
+                makeOrder(customer);
             case 4:
                 System.out.println(customersHelper.manageOrderStatus(orders, customer));
+                makeOrder(customer);
                 break;
+            case 5:
+                sortOptions();
+                makeOrder(customer);
             default:
-                System.out.println("Wrong");
+                System.out.println("Wrong Input");
                 makeOrder(customer);
         }
     }
@@ -211,9 +199,8 @@ public class FerryFoodOnlineMenu {
         System.out.println("2: Add new menu");
         System.out.println("3: Change Existing Menu");
         System.out.println("4: Show Order History");
-        System.out.println("5: Print restaurant DeliverNan");
-        System.out.println("6: Show restaurant Comment");
-        System.out.println("7: Manage DeliverMan");
+        System.out.println("5: Show restaurant Comment");
+        System.out.println("6: Manage DeliverMan");
         return ScannerWrapper.getInstance().nextInt();
     }
 
@@ -229,22 +216,23 @@ public class FerryFoodOnlineMenu {
             ServiceBuildingWrapper.changeMenu(serviceBuilding);
             buildingMenuEdit(serviceBuilding);
         } else if (option == 4) {
-            Main.print(serviceBuilding.getOrder());
+            if (serviceBuilding.getOrder().size() == 0) {
+                System.out.println("No Order");
+            } else {
+                Main.print(serviceBuilding.getOrder());
+            }
             buildingMenuEdit(serviceBuilding);
         } else if (option == 5) {
-            Main.print(serviceBuilding.getDeliverMEN());
-            buildingMenuEdit(serviceBuilding);
-        } else if (option == 6) {
             serviceBuilding.showComments();
             buildingMenuEdit(serviceBuilding);
-        } else if (option == 7) {
+        } else if (option == 6) {
             deliverManMenu(serviceBuilding);
         } else {
             System.out.println("wrong input");
         }
     }
 
-    public void sortFoods(ArrayList<Restaurant> restaurants) {
+    public void sortFoods() {
         System.out.println("1 :Sort By Food Price\n2 :Sort By Score\n3 :return");
         int choice = ScannerWrapper.getInstance().nextInt();
         if (choice == 1) {
@@ -259,43 +247,55 @@ public class FerryFoodOnlineMenu {
         }
     }
 
-    public void sortRestaurant(ArrayList<Restaurant> restaurants) {
-        System.out.println("1 :sortAscendingByComments");
-        System.out.println("2 :sortDescendingByComments");
-        System.out.println("3 :sortAscendingByScore");
-        System.out.println("4 :sortDescendingByScore");
-        System.out.println("5 :return");
+    public void sortServiceBuilding() {
+        printSortMenu();
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         switch (choice) {
             case 1:
                 ServiceBuildingWrapper.sortAscendingByComments(restaurants);
+                ServiceBuildingWrapper.sortAscendingByComments(fruitShops);
+                ServiceBuildingWrapper.sortAscendingByComments(superMarkets);
                 break;
             case 2:
                 ServiceBuildingWrapper.sortDescendingByComments(restaurants);
+                ServiceBuildingWrapper.sortDescendingByComments(fruitShops);
+                ServiceBuildingWrapper.sortDescendingByComments(superMarkets);
                 break;
             case 3:
                 ServiceBuildingWrapper.sortAscendingByScore(restaurants);
+                ServiceBuildingWrapper.sortAscendingByScore(fruitShops);
+                ServiceBuildingWrapper.sortAscendingByScore(superMarkets);
                 break;
             case 4:
                 ServiceBuildingWrapper.sortDescendingByScore(restaurants);
+                ServiceBuildingWrapper.sortDescendingByScore(fruitShops);
+                ServiceBuildingWrapper.sortDescendingByScore(superMarkets);
                 break;
             case 5:
                 //manageOptions(restaurants);
                 break;
             default:
                 System.out.println("Wrong input");
-                sortRestaurant(restaurants);
+                sortServiceBuilding();
         }
     }
 
-    public void sortOptions(ArrayList<Restaurant> restaurants) {
+    public void printSortMenu() {
+        System.out.println("1 :sortAscendingByComments");
+        System.out.println("2 :sortDescendingByComments");
+        System.out.println("3 :sortAscendingByScore");
+        System.out.println("4 :sortDescendingByScore");
+        System.out.println("5 :return");
+    }
+
+    public void sortOptions() {
         System.out.println("Set Desire order For Restaurant(1)\nSet Desire Order For Foods demonstration(2)\nreturn(3)");
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         if (choice == 1) {
-            sortRestaurant(restaurants);
+            sortServiceBuilding();
         }
         if (choice == 2) {
-            sortFoods(restaurants);
+            sortFoods();
         }
     }
 
@@ -305,23 +305,22 @@ public class FerryFoodOnlineMenu {
         int option = ScannerWrapper.getInstance().nextInt();
         switch (option) {
             case 1:
-                MangeDeliverMan.printDeliverMen(deliverMEN);
+                serviceBuilding.printDeliverMan();
                 deliverManMenu(serviceBuilding);
-                break;
             case 2:
                 mangeDeliverMan.addDeliverMan(serviceBuilding, deliverMEN);
                 deliverManMenu(serviceBuilding);
                 break;
             case 3:
-                MangeDeliverMan.printDeliverMen(deliverMEN);
-                System.out.println("Choose One DeliverMan");
+                if (!serviceBuilding.printDeliverMan()) {
+                    deliverManMenu(serviceBuilding);
+                }
                 int choice = ScannerWrapper.getInstance().nextInt();
-//                DeliverMan deliverMan = mangeDeliverMan.getDeliverMan(choice, deliverMEN0);
                 mangeDeliverMan.update(getDeliverMan(choice));
                 deliverManMenu(serviceBuilding);
                 break;
             case 4:
-                //manageOptions(restaurants);
+                break;
             default:
                 System.out.println("TRy Again");
                 deliverManMenu(serviceBuilding);
@@ -339,38 +338,154 @@ public class FerryFoodOnlineMenu {
         return deliverMEN.get(deliverMan);
     }
 
-//    public void update(ArrayList<Restaurant> restaurants) {
-//        // FerryFoodOnlineMenu foodOnlineMenu = new FerryFoodOnlineMenu();
-//        ServiceBuildingWrapper.printRestaurant(restaurants);
-//        System.out.println("Choose Your Restaurant");
-//        int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
-//        System.out.println("Choose What To Do");
-//        ServiceBuildingWrapper.updateMenu();
-//        int options = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
-//        switch (options) {
-//            case 1:
-//                ServiceBuildingWrapper.editComment(restaurants.get(choice));
-//                // foodOnlineMenu.manageOptions(restaurants);
-//                break;
-//            case 2:
-//                restaurants.get(choice).editScore();
-//                break;
-//            // foodOnlineMenu.manageOptions(restaurants);
-//            case 3:
-//                // TODO: FIX THIS PART
-//                restaurants.get(choice).getMenu().editFood();
-//                // foodOnlineMenu.manageOptions(restaurants);
-//                break;
-//            case 4:
-////                 printRestaurant(restaurants);
-////                 Restaurant restaurant = chooseRestaurant(restaurants);
-//                restaurants.get(choice).editName();
-//                break;
-//            case 5:
-//                // foodOnlineMenu.manageOptions(restaurants);
-//            default:
-//                System.out.println("Watch Your input");
-//        }
-//
-//    }
+    public void chooseWhatTodo() {
+        System.out.println("1: Login");
+        System.out.println("2: Sign up");
+        int userChoice = ScannerWrapper.getInstance().nextInt();
+        switch (userChoice) {
+            case 1:
+                login();
+                chooseWhatTodo();
+            case 2:
+                signUpMenu();
+                chooseWhatTodo();
+            default:
+                System.out.println("Try Again");
+                chooseWhatTodo();
+        }
+    }
+
+    private void signUpMenu() {
+        System.out.println("1: sign Up as a manager");
+        System.out.println("2: sign up as a Customer");
+        System.out.println("3: return");
+        int userChoice = ScannerWrapper.getInstance().nextInt();
+        switch (userChoice) {
+            case 1:
+                addNewManager();
+                signUpMenu();
+                break;
+            case 2:
+                customersHelper.makeNewCustomer(customers);
+                signUpMenu();
+                break;
+            case 3:
+                return;
+            default:
+                System.out.println("Try Again");
+                signUpMenu();
+        }
+    }
+
+    public void printStartingMenu() {
+        System.out.println("1: Admin");
+        System.out.println("2: Manager");
+        System.out.println("3: Customer");
+        System.out.println("4: exit");
+    }
+
+    public void login() {
+        User user = new User();
+        printStartingMenu();
+        int userChoice = ScannerWrapper.getInstance().nextInt();
+//        FerryFoodOnlineMenu.Options
+        switch (userChoice) {
+            case 1:
+                user = userValidation(getAdminsList());
+                //user = adminValidation(ferryFoodOnlineMenu.getAdminsList());
+                break;
+            case 2:
+                user = userValidation(getManagers());
+                //user = managerValidation(ferryFoodOnlineMenu.getManagers());
+                break;
+            case 3:
+                user = userValidation(getCustomers());
+                //user = customerValidation(ferryFoodOnlineMenu.getCustomers());
+                break;
+            case 4:
+                System.exit(0);
+            default:
+                break;
+        }
+        if (user == null) {
+            System.out.println("Try again");
+            login();
+        } else {
+            manageChoice(userChoice, user);
+        }
+    }
+
+    public void manageChoice(int userChoice, User user) {
+//        CustomersHelper customersHelper = new CustomersHelper();
+        switch (userChoice) {
+            case 1:
+                adminRelated(user);
+//                ferryFoodOnlineMenu.adminMenu((Admin) user);
+//                customersHelper.makeNewCustomer(ferryFoodOnlineMenu.getCustomers());
+                manageChoice(userChoice, user);
+                break;
+            case 2:
+                manager((Manager) user);
+                manageChoice(userChoice, user);
+                break;
+            case 3:
+                manageCustomer((Customer) user);
+                manageChoice(userChoice, user);
+                break;
+            default:
+        }
+    }
+
+    private void adminRelated(User user) {
+        printAdminMenu();
+        int choice = ScannerWrapper.getInstance().nextInt();
+        if (choice == 4) {
+            adminMenu((Admin) user);
+        } else if (choice == 1) {
+            superMarkets.add((SuperMarket) ServiceBuildingWrapper.add(new SuperMarket()));
+            System.out.println("add one Manager To your super market");
+            addNewManager();
+        } else if (choice == 2) {
+            restaurants.add((Restaurant) ServiceBuildingWrapper.add(new Restaurant()));
+        } else if (choice == 3) {
+            fruitShops.add((FruitShop) ServiceBuildingWrapper.add(new FruitShop()));
+            System.out.println("add one Manager To your super market");
+            addNewManager();
+        } else {
+            System.out.println("Wrong");
+            adminRelated(user);
+        }
+    }
+
+    private void addNewManager() {
+        Manager manager = new Manager();
+        System.out.println("Enter Password");
+        manager.setPassWord(ScannerWrapper.getInstance().nextLine());
+        System.out.println("Enter userName");
+        manager.setUserName(ScannerWrapper.getInstance().nextLine());
+        //manager.setOrders(new ArrayList<>());
+        managers.add(manager);
+        manager.setServiceBuilding(ServiceBuildingWrapper.chooseBuildingForYourNewManager());
+    }
+
+
+    private void printAdminMenu() {
+        System.out.println("1: Add one super market");
+        System.out.println("2: Add one restaurant");
+        System.out.println("3: Add one fruit shop");
+        System.out.println("4: other tasks");
+    }
+
+    public User userValidation(ArrayList<? extends User> users) {
+        System.out.println("Enter UserName");
+        String userName = ScannerWrapper.getInstance().nextLine();
+        System.out.println("Enter PassWord");
+        String passWord = ScannerWrapper.getInstance().nextLine();
+        for (User user : users) {
+            if (user.getUserName().equals(userName) && user.getPassWord().equals(passWord)) {
+                return user;
+            }
+        }
+        return null;
+    }
 }

@@ -16,26 +16,24 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        //TODO: do not forget to add special share
+//        ArrayList<Restaurant> restaurants = initializeRestaurant();
+        //TODO: do not forget to add special shar
+
         FerryFoodOnlineMenu.setServiceBuildings(new ArrayList<>());
 //        Admin admin = new Admin("admin", "Admin");
-        ArrayList<? extends ServiceBuilding> fruitShops = initializeFruitShop();
-        System.out.println(fruitShops.get(0).getMenu().getFoods());
-        ServiceBuildingWrapper.sortFoodsByPrice(fruitShops.get(0));
-        System.out.println(fruitShops.get(0).getMenu().getFoods());
-        System.exit(0);
-
-//        ArrayList<Restaurant> restaurants = initializeRestaurant();
         FerryFoodOnlineMenu ferryFoodOnlineMenu = new FerryFoodOnlineMenu(initializeDeliverMen(), new ArrayList<>(), initializeRestaurant());
         ferryFoodOnlineMenu.setFruitShops(initializeFruitShop());
         ferryFoodOnlineMenu.setSuperMarkets(initializeSuperMarkets());
         ferryFoodOnlineMenu.setCustomers(initializeCustomers());
+        ferryFoodOnlineMenu.setShares(initializeShare());
+
+        ferryFoodOnlineMenu.setManagers(new ArrayList<>());
 
         ferryFoodOnlineMenu.setAdminsList(initializeAdmin());
-        PreStartTask preStartTask = new PreStartTask(ferryFoodOnlineMenu);
+//        PreStartTask preStartTask = new PreStartTask(ferryFoodOnlineMenu);
         ferryFoodOnlineMenu.setCustomers(initializeCustomers());
 
-        preStartTask.handleChoice();
+        ferryFoodOnlineMenu.chooseWhatTodo();
 //
 //        switch (options) {
 //                break;
@@ -178,9 +176,7 @@ public class Main {
 
     public static ArrayList<SuperMarket> initializeSuperMarkets() {
         ArrayList<SuperMarket> superMarkets = new ArrayList<>();
-        Time[] wokTime = new Time[2];
-        wokTime[0] = new Time(9);
-        wokTime[1] = new Time(21);
+        Time[] wokTime = {new Time(9), new Time(21)};
         SuperMarket superMarket = new SuperMarket(true, "Brother", "babol");
         superMarket.setWorkHours(wokTime);
         SuperMarket superMarket1 = new SuperMarket(true, "haji baba", "tehran");
@@ -191,11 +187,12 @@ public class Main {
         superMarket1.setShares(initializeShare());
         superMarket.setComments(new ArrayList<>());
         superMarket1.setComments(new ArrayList<>());
-        ArrayList<DeliverMan> deliverMEN = initializeDeliverMen();
-        DeliverMan steve = new DeliverMan("Motor", Salary.PER_HOUR, true,
-                new ArrayList<>(), new ArrayList<>());
+        ArrayList<DeliverMan> deliverMEN = new ArrayList<>();
+        DeliverMan steve = new DeliverMan("Motor", Salary.PER_HOUR, true, new ArrayList<>(), new ArrayList<>());
         deliverMEN.add(steve);
+        deliverMEN.get(0).setCoverage(2);
         superMarket.setDeliverMEN(deliverMEN);
+        superMarket1.setDeliverMEN(deliverMEN);
         ArrayList<OrderRange> orderRange = initializeOrderRange(wokTime[0].getHour(), wokTime[1].getHour());
         superMarket.setOrderRanges(orderRange);
         superMarket1.setOrderRanges(orderRange);
@@ -279,7 +276,8 @@ public class Main {
         fruitShop1.setWorkHours(times);
         fruitShop.setMenu(initializeFruitShopMenu());
 //        fruitShop1.setScore(9);
-
+        fruitShop.setDeliverMEN(new ArrayList<>());
+        fruitShop1.setDeliverMEN(new ArrayList<>());
         fruitShop1.setMenu(initializeFruitShopMenu());
         fruitShop.setComments(new ArrayList<>());
         fruitShop1.setComments(new ArrayList<>());

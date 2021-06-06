@@ -323,4 +323,16 @@ public class ServiceBuildingWrapper {
         return menu;
     }
 
+    public static ServiceBuilding chooseBuildingForYourNewManager() {
+
+        for (int i = 0; i < FerryFoodOnlineMenu.getServiceBuildings().size(); i++) {
+            if (!(FerryFoodOnlineMenu.getServiceBuildings().get(i).getClass() == Restaurant.class)) {
+                System.out.println(i);
+                System.out.println(FerryFoodOnlineMenu.getServiceBuildings().get(i));
+            }
+        }
+        System.out.println("Choose One For your Manager");
+        return FerryFoodOnlineMenu.getServiceBuildings().get(ScannerWrapper.getInstance().nextInt());
+    }
+
 }

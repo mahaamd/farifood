@@ -35,6 +35,10 @@ public class Restaurant extends ServiceBuilding {
         super(status, name, address, menu, objects, objects1);
     }
 
+    public Restaurant() {
+
+    }
+
 //    public Restaurant(boolean status, String name, String address, Menu menu, ArrayList<DeliverMan> deliverMEN, ArrayList<String> comments) {
 //        super.setStatus(status);
 //        super.setName(name);

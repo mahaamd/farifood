@@ -20,6 +20,10 @@ public class Share {
         return bought;
     }
 
+    public void setBought(boolean bought) {
+        this.bought = bought;
+    }
+
     @Override
     public String toString() {
         return "Share{" +

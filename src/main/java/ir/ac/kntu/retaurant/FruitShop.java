@@ -23,6 +23,10 @@ public class FruitShop extends ServiceBuilding {
         super(b, name, address, menu, comments, deliverMEN);
     }
 
+    public FruitShop() {
+
+    }
+
 //    public FruitShop() {
 //        order = new Order();
 //    }

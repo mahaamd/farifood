@@ -34,6 +34,10 @@ public class SuperMarket extends ServiceBuilding {
     public SuperMarket(boolean status, String name, String address, Menu menu, ArrayList<String> comments, ArrayList<DeliverMan> deliverMan) {
         super(status, name, address, menu, comments, deliverMan);
     }
+
+    public SuperMarket() {
+        super();
+    }
 //    @Override
 //    public SuperMarketOrder getOrder() {
 //        return order;

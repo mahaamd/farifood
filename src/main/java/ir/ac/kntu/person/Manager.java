@@ -1,6 +1,7 @@
 package ir.ac.kntu.person;
 
 import ir.ac.kntu.ServiceBuilding;
+import ir.ac.kntu.food.Order;
 import ir.ac.kntu.retaurant.Restaurant;
 
 public class Manager extends User {
@@ -9,6 +10,10 @@ public class Manager extends User {
 
     public Manager(String userName, String passWord) {
         super(userName, passWord);
+    }
+
+    public Manager() {
+
     }
 
     public void setServiceBuilding(ServiceBuilding serviceBuilding) {

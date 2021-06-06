@@ -35,9 +35,10 @@ public class MangeDeliverMan {
         System.out.println("Set Salary For DeliverMan : per hour Or per order");
         String salary = ScannerWrapper.getInstance().nextLine();
         deliverMan.setSalary(salary);
-        System.out.println("Accessible Or In Accessible");
-        String accessible = ScannerWrapper.getInstance().nextLine();
-        deliverMan.setAccessible(accessible.toLowerCase(Locale.ROOT).equals("accessible"));
+//        System.out.println("Accessible Or In Accessible");
+//        String accessible = ScannerWrapper.getInstance().nextLine();
+//        deliverMan.setAccessible(accessible.toLowerCase(Locale.ROOT).equals("accessible"));
+        deliverMan.setAccessible(true);
         deliverMan.setComments(new ArrayList<>());
 //        System.out.println("***************" + "addRestaurant" + "***************");
 //        System.out.println("Choose 2 Building For Your DeliverMan");

@@ -42,6 +42,10 @@ public class ServiceBuilding implements Comparable<ServiceBuilding> {
         this.address = address;
     }
 
+    public ServiceBuilding() {
+
+    }
+
     public ArrayList<Order> getOrders() {
         return orders;
     }
@@ -79,6 +83,9 @@ public class ServiceBuilding implements Comparable<ServiceBuilding> {
     }
 
     public ArrayList<Order> getOrder() {
+        if (orders == null) {
+            orders = new ArrayList<>();
+        }
         return new ArrayList<>(orders);
     }
 
@@ -180,11 +187,16 @@ public class ServiceBuilding implements Comparable<ServiceBuilding> {
         deliverMEN.get(whichDeliverMan).addOrder(newOrder);
     }
 
-//    public void printDeliverMan() {
-//        for (DeliverMan d : deliverMEN) {
-//            System.out.println(d);
-//        }
-//    }
+    public boolean printDeliverMan() {
+        if (deliverMEN.size() == 0) {
+            System.out.println("No deliverMan");
+            return false;
+        }
+        for (DeliverMan d : deliverMEN) {
+            System.out.println(d);
+        }
+        return true;
+    }
 
     //    public<T> void editScore(T anonymous) {
 //        System.out.println("Current Score ==" + getScore());
