@@ -10,7 +10,9 @@ import ir.ac.kntu.stuffs.Stuff;
 import ir.ac.kntu.stuffs.StuffStatus;
 
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Main {
@@ -32,17 +34,7 @@ public class Main {
         ferryFoodOnlineMenu.setAdminsList(initializeAdmin());
 //        PreStartTask preStartTask = new PreStartTask(ferryFoodOnlineMenu);
         ferryFoodOnlineMenu.setCustomers(initializeCustomers());
-
         ferryFoodOnlineMenu.chooseWhatTodo();
-//
-//        switch (options) {
-//                break;
-//            case EXIT:
-//                break;
-//            default:
-//                System.out.println("Not Valid Choice");
-//                preStartTask.handleChoice();
-//        }
     }
 
     private static ArrayList<Admin> initializeAdmin() {
@@ -209,10 +201,10 @@ public class Main {
 
         ArrayList<Thing> things = new ArrayList<>();
 
-        things.add(new Stuff("chips", StuffStatus.AVAILABLE, 15, 10));
-        things.add(new Stuff("iceCream", StuffStatus.AVAILABLE, 15, 6));
-        things.add(new Stuff("jele", StuffStatus.AVAILABLE, 15, 7));
-        things.add(new Stuff("poshack", StuffStatus.AVAILABLE, 15, 8));
+        things.add(new Stuff("chips", StuffStatus.AVAILABLE, 15, 10, new ArrayList<>()));
+        things.add(new Stuff("iceCream", StuffStatus.AVAILABLE, 15, 6, new ArrayList<>()));
+        things.add(new Stuff("jele", StuffStatus.AVAILABLE, 15, 7, new ArrayList<>()));
+        things.add(new Stuff("poshack", StuffStatus.AVAILABLE, 15, 8, new ArrayList<>()));
 
         return things;
     }
@@ -256,9 +248,9 @@ public class Main {
         }
     }
 
-    public ArrayList<Manager> initializeManager() {
-        return null;
-    }
+//    public ArrayList<Manager> initializeManager() {
+//        return null;
+//    }
 
 //    public static ArrayList<Thing> castStuffToThing(ArrayList<Stuff> stuffs) {
 //        return new ArrayList<>(stuffs);

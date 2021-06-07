@@ -15,9 +15,10 @@ public class Order {
     private ArrayList<Thing> things;
     //private List<? extends Thing> newThing;
 
-//    public Order() {
-//        foods = new ArrayList<>();
-//    }
+    public Order() {
+        things = new ArrayList<>();
+        status = OrderStatus.NO_ORDER;
+    }
 //
 //    public void setFoods(ArrayList<Food> foods) {
 //        this.foods = foods;

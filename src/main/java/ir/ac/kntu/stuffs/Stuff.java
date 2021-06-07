@@ -2,6 +2,8 @@ package ir.ac.kntu.stuffs;
 
 import ir.ac.kntu.Thing;
 
+import java.util.ArrayList;
+
 
 public class Stuff extends Thing {
 
@@ -12,12 +14,13 @@ public class Stuff extends Thing {
     public Stuff() {
     }
 
-    public Stuff(String name, StuffStatus status, Integer count, double price) {
+    public Stuff(String name, StuffStatus status, Integer count, double price, ArrayList<String> comments) {
         this.name = name;
         this.status = status;
         //this.count = count;
         setCount(count);
         setPrice(price);
+        setComments(comments);
     }
 
 //    public Integer getCount() {

@@ -43,22 +43,22 @@ public class CustomersHelper {
         orders.add(order);
     }
 
-    public String manageOrderStatus(ArrayList<Order> orders, Customer customer) {
+    public String manageOrderStatus(ArrayList<Order> orders) {
         //newCustomerOrder(customer);
         //TODO: change this part so you can manage error more suitable
-        if (orders.size() == 0 || customer.getOrders().getThings().size() == 0 || customer.getOrders().getThings() == null) {
+        if (orders.size() == 0) {
             return "No order First Order sth";
         }
-        Order order = customer.getOrders();
+        Order order = chooseOrderToChangeStatus(orders);
         ServiceBuilding serviceBuilding = findOrderInRestaurant(FerryFoodOnlineMenu.getServiceBuildings(), order);
-        if (serviceBuilding == null) {
-            return "No order First Order sth";
+        if (serviceBuilding == null || order == null) {
+            return "No order Or all Orders are delivered";
         }
         String status;
         System.out.print("New Status: ");
         status = ScannerWrapper.getInstance().nextLine();
         if (!status.equals("Sending") && !status.equals("Delivered") && !status.equals("In Process")) {
-            manageOrderStatus(orders, customer);
+            manageOrderStatus(orders);
         }
         if (status.equals("Sending")) {
             if (serviceBuilding.checkDeliverManAccessibility()) {
@@ -69,15 +69,13 @@ public class CustomersHelper {
         }
         if (status.equals("Delivered")) {
             setNewStatus(OrderStatus.DELIVERED, order, serviceBuilding, orders);
-            DeliverMan deliverMan = addOrder(customer, serviceBuilding, order);
+            DeliverMan deliverMan = addOrder(serviceBuilding, order);
             setComment(serviceBuilding, deliverMan);
         }
         return "Successful";
     }
 
-    private DeliverMan addOrder(Customer customer,
-                                ServiceBuilding serviceBuilding, Order order) {
-        customer.addOrder(order);
+    private DeliverMan addOrder(ServiceBuilding serviceBuilding, Order order) {
         DeliverMan deliverMan = getRandomDeliverMan(serviceBuilding, order);
         deliverMan.addOrder(order);
         return deliverMan;
@@ -89,12 +87,14 @@ public class CustomersHelper {
 //        return customers.get(random);
 //    }
 
-//    private Order chooseOrderToChangeStatus(ArrayList<Order> orders) {
-//        printInProcessOrders(orders);
-//        System.out.println("Choose an Order To Change Status");
-//        int choice = ScannerWrapper.getInstance().nextInt();
-//        return orders.get(choice);
-//    }
+    private Order chooseOrderToChangeStatus(ArrayList<Order> orders) {
+        if (!printOrdersToChangeStatus(orders)) {
+            return null;
+        }
+        System.out.println("Choose an Order To Change Status");
+        int choice = ScannerWrapper.getInstance().nextInt();
+        return orders.get(choice);
+    }
 
     private DeliverMan getRandomDeliverMan(ServiceBuilding serviceBuilding, Order order) {
 
@@ -170,15 +170,19 @@ public class CustomersHelper {
         customer.setShare(new Share());
     }
 
-    public void printInProcessOrders(ArrayList<Order> orders) {
+    public boolean printOrdersToChangeStatus(ArrayList<Order> orders) {
+        boolean chooseWhatTodo = false;
         for (int i = 0; i < orders.size(); i++) {
             if (orders.get(i).getStatus() == OrderStatus.IN_PROCESS ||
                     orders.get(i).getStatus() == OrderStatus.SENDING) {
                 System.out.println(i);
                 System.out.println(orders.get(i));
                 System.out.println(orders.get(i).getStatus());
+                chooseWhatTodo = true;
             }
         }
+
+        return chooseWhatTodo;
     }
 
     private User chooseCustomer(ArrayList<? extends User> customers) {
@@ -248,7 +252,7 @@ public class CustomersHelper {
         if (!customer.getShare().isBought()) {
             superMarketOrder.setDeliveryCost(superMarketOrder.getDeliveryCost() + totalCost(stuffs0) + orderRange.getCost());
         }
-        System.out.println("total cost =" + superMarketOrder.getDeliveryCost());
+        System.out.println("total cost = " + superMarketOrder.getDeliveryCost());
         System.out.println("Buy?");
         if (ScannerWrapper.getInstance().nextLine().equalsIgnoreCase("yes")) {
             orderRange.setCurrentCapacity(orderRange.getCurrentCapacity() + 1);

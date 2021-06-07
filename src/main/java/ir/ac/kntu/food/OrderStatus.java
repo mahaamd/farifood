@@ -1,5 +1,5 @@
 package ir.ac.kntu.food;
 
 public enum OrderStatus {
-    IN_PROCESS, DELIVERED, SENDING;
+    NO_ORDER,IN_PROCESS, DELIVERED, SENDING;
 }

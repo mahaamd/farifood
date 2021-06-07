@@ -260,7 +260,7 @@ public class ServiceBuildingWrapper {
     }
 
     public static void changeMenu(ServiceBuilding restaurant) {
-        restaurant.getMenu().printMenu();
+//        restaurant.getMenu().printMenu();
         editMenu();
         System.out.println("Choose One");
         int choice = ScannerWrapper.getInstance().nextInt();
@@ -299,7 +299,7 @@ public class ServiceBuildingWrapper {
     }
 
     public static void addNewMenu(ServiceBuilding restaurant) {
-        restaurant.getMenu().printMenu();
+//        restaurant.getMenu().printMenu();
         restaurant.setMenu(makeNewMenu());
     }
 
@@ -333,6 +333,10 @@ public class ServiceBuildingWrapper {
         }
         System.out.println("Choose One For your Manager");
         return FerryFoodOnlineMenu.getServiceBuildings().get(ScannerWrapper.getInstance().nextInt());
+    }
+
+    public static void showPopularOrderRanges() {
+
     }
 
 }
