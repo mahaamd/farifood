@@ -81,12 +81,6 @@ public class CustomersHelper {
         return deliverMan;
     }
 
-
-//    private Customer getRandomCustomer(ArrayList<Customer> customers) {
-//        int random = (int) (Math.random() * customers.size());
-//        return customers.get(random);
-//    }
-
     private Order chooseOrderToChangeStatus(ArrayList<Order> orders) {
         if (!printOrdersToChangeStatus(orders)) {
             return null;
@@ -195,7 +189,6 @@ public class CustomersHelper {
     public String buyFruit(Customer customer, ArrayList<FruitShop> fruitShops, ArrayList<Order>
             orders) {
         FruitShopOrder fruitShopOrder = new FruitShopOrder();
-//        ServiceBuildingWrapper.printRestaurant(fruitShops);
         FruitShop fruitShop = (FruitShop) ServiceBuildingWrapper.chooseServiceBuilding(fruitShops);
         if (checkTime(fruitShop)) {
             return "Fruit Shop is closed";
@@ -227,12 +220,12 @@ public class CustomersHelper {
                 if (count < fruitShopOrder.getMaximumAmountPerOrder()) {
                     orders.add(fruits.get(Integer.parseInt(input)));
                     fruits.get(Integer.parseInt(input)).setCount(Integer.parseInt(input) + input1);
-                    count += Integer.parseInt(input);
                 }
+                    count += Integer.parseInt(input);
             }
             if (count > fruitShopOrder.getMaximumAmountPerOrder()) {
                 System.out.println("You have Pass the Limit");
-                break;
+                count -= Integer.parseInt(input);
             }
             fruitShopOrder.setThings(orders);
         }
@@ -294,9 +287,6 @@ public class CustomersHelper {
 
     private ArrayList<Thing> chooseStuff(ArrayList<? extends Thing> stuffs) {
         ArrayList<Thing> stuffs1 = new ArrayList<>();
-//            for (Thing stuff : stuffs) {
-//                System.out.println(stuff);
-//            }
         System.out.println("Choose what you want When Finished type " + "finished");
         System.out.println();
         print(stuffs);

@@ -39,6 +39,7 @@ public class PrintMenus {
         System.out.println("2: Add one restaurant");
         System.out.println("3: Add one fruit shop");
         System.out.println("4: other Works");
+        System.out.println("5 Return");
     }
 
     public void signUpMenu() {
@@ -47,10 +48,12 @@ public class PrintMenus {
     }
 
     public void printAdminMenu0() {
-        System.out.println("Enter 1 For Manage FruitShops" +
-                "Enter 2 For Manage superMarket" +
+        System.out.println("Enter 1 For Manage FruitShops\n" +
+                "Enter 2 For Manage superMarket\n" +
                 "Enter 3 For Manage restaurant");
-        System.out.println("4: Manage Order Status");
+        System.out.println("Enter 4: Manage Order Status");
+        System.out.println("Enter 5: print Stores");
+        System.out.println("Enter 6: return");
     }
 
     public void manageCustomerMenu() {

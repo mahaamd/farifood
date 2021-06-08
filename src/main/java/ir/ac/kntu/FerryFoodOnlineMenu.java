@@ -121,6 +121,11 @@ public class FerryFoodOnlineMenu {
             case 4:
                 System.out.println(customersHelper.manageOrderStatus(orders));
                 break;
+            case 5:
+                Main.print(FerryFoodOnlineMenu.getServiceBuildings());
+                break;
+            case 6:
+                return;
             default:
                 System.out.println("Watch your input");
                 adminMenu(admin);
@@ -151,7 +156,7 @@ public class FerryFoodOnlineMenu {
                 customersHelper.mostPopularOrderRanges(orderRanges);
                 break;
             case 6:
-                break;
+                login();
             default:
                 System.out.println("Oops Try Again");
                 manageCustomer(customer);
@@ -264,7 +269,7 @@ public class FerryFoodOnlineMenu {
 
     public void sortOptions() {
         System.out.println("Set Desire order For buildings(1)\n" +
-                "Set Desire Order For Foods demonstration(2)\nreturn(3)");
+                "Set Desire Order For stuffs demonstration(2)\nreturn(3)");
         int choice = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
         if (choice == 1) {
             sortServiceBuilding();
@@ -402,7 +407,7 @@ public class FerryFoodOnlineMenu {
         if (choice == 4) {
             adminMenu((Admin) user);
         } else if (choice == 1) {
-            SuperMarket superMarket =(SuperMarket) ServiceBuildingWrapper.add(new SuperMarket());
+            SuperMarket superMarket = (SuperMarket) ServiceBuildingWrapper.add(new SuperMarket());
             superMarkets.add(superMarket);
             System.out.println("Hire one Manager for your super market");
             addNewManager(superMarket);
@@ -415,6 +420,8 @@ public class FerryFoodOnlineMenu {
             fruitShops.add(fruitShop);
             System.out.println("Hire one Manager for your super market");
             addNewManager(fruitShop);
+        } else if (choice == 5) {
+            login();
         } else {
             System.out.println("Wrong");
             adminRelated(user);
