@@ -221,7 +221,7 @@ public class CustomersHelper {
                     orders.add(fruits.get(Integer.parseInt(input)));
                     fruits.get(Integer.parseInt(input)).setCount(Integer.parseInt(input) + input1);
                 }
-                    count += Integer.parseInt(input);
+                count += Integer.parseInt(input);
             }
             if (count > fruitShopOrder.getMaximumAmountPerOrder()) {
                 System.out.println("You have Pass the Limit");
