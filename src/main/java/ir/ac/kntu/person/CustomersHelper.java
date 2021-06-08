@@ -320,7 +320,7 @@ public class CustomersHelper {
         }
     }
 
-    public void MostPopularOrderRanges(ArrayList<OrderRange> orderRanges) {
+    public void mostPopularOrderRanges(ArrayList<OrderRange> orderRanges) {
 //        FerryFoodOnlineMenu ferryFoodOnlineMenu = new FerryFoodOnlineMenu();
         Collections.sort(orderRanges);
         System.out.println(orderRanges.get(0));

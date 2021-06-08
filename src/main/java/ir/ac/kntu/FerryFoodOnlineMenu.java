@@ -148,7 +148,7 @@ public class FerryFoodOnlineMenu {
                 buySpecialShare(customer);//TODO: Complete this menu
                 break;
             case 5:
-                customersHelper.MostPopularOrderRanges(orderRanges);
+                customersHelper.mostPopularOrderRanges(orderRanges);
                 break;
             case 6:
                 break;

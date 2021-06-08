@@ -71,7 +71,7 @@ public class PrintMenus {
         System.out.println("5: return");
     }
 
-    public void updateMenu () {
+    public void updateMenu() {
         System.out.println("1: Edit Comment");
         System.out.println("2: Edit Scores");
         System.out.println("3: Edit Menus");
