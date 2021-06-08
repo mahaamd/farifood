@@ -1,12 +1,13 @@
-package ir.ac.kntu.retaurant;
+package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.food.Food;
+import ir.ac.kntu.food.Order;
 import ir.ac.kntu.food.OrderStatus;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class RestaurantOrder {
+public class RestaurantOrder extends Order {
 
     private OrderStatus status;
 

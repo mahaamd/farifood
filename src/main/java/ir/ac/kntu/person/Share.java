@@ -27,7 +27,7 @@ public class Share {
     @Override
     public String toString() {
         return "Share{" +
-                "period=" + period +
+                "period=" + period + "Month" +
                 ", cost=" + cost +
                 '}';
     }

@@ -4,13 +4,14 @@ import ir.ac.kntu.person.DeliverMan;
 
 import java.util.ArrayList;
 
-public class OrderRange {
+public class OrderRange implements Comparable<OrderRange> {
     private Integer start;
     private Integer end;
     private ArrayList<DeliverMan> deliverMEN;
     private double cost;
     private final int maximumCapacity = 6;
     private int currentCapacity;
+    private int boughtCount;
 
     public OrderRange(Integer start, Integer end, ArrayList<DeliverMan> deliverMEN, double cost) {
         this.start = start;
@@ -28,6 +29,14 @@ public class OrderRange {
 
     public void setStart(Integer start) {
         this.start = start;
+    }
+
+    public int getBoughtCount() {
+        return boughtCount;
+    }
+
+    public void setBoughtCount(int boughtCount) {
+        this.boughtCount = boughtCount;
     }
 
     public Integer getEnd() {
@@ -78,5 +87,11 @@ public class OrderRange {
         this.currentCapacity = currentCapacity;
     }
 
+    public int compareTo(OrderRange orderRange) {
+        return -this.getBoughtCount() + orderRange.getBoughtCount();
+    }
+//    public ServiceBuilding getMostPopularOrderRanges() {
+//
+//    }
 
 }

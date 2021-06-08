@@ -1,8 +1,6 @@
 package ir.ac.kntu.person;
 
 import ir.ac.kntu.ServiceBuilding;
-import ir.ac.kntu.food.Order;
-import ir.ac.kntu.retaurant.Restaurant;
 
 public class Manager extends User {
 

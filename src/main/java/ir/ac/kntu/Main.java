@@ -5,21 +5,17 @@ import ir.ac.kntu.food.Menu;
 import ir.ac.kntu.food.Order;
 import ir.ac.kntu.order.OrderRange;
 import ir.ac.kntu.person.*;
-import ir.ac.kntu.retaurant.*;
+import ir.ac.kntu.restaurant.*;
 import ir.ac.kntu.stuffs.Stuff;
 import ir.ac.kntu.stuffs.StuffStatus;
 
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class Main {
     public static void main(String[] args) {
-
-//        ArrayList<Restaurant> restaurants = initializeRestaurant();
-        //TODO: do not forget to add special shar
 
         FerryFoodOnlineMenu.setServiceBuildings(new ArrayList<>());
 //        Admin admin = new Admin("admin", "Admin");
@@ -28,8 +24,10 @@ public class Main {
         ferryFoodOnlineMenu.setSuperMarkets(initializeSuperMarkets());
         ferryFoodOnlineMenu.setCustomers(initializeCustomers());
         ferryFoodOnlineMenu.setShares(initializeShare());
+        ferryFoodOnlineMenu.setOrderRanges(setOrderRange());
+//        System.out.println(ferryFoodOnlineMenu.getOrderRanges());
 
-        ferryFoodOnlineMenu.setManagers(new ArrayList<>());
+        ferryFoodOnlineMenu.setManagers(initializeManger());
 
         ferryFoodOnlineMenu.setAdminsList(initializeAdmin());
 //        PreStartTask preStartTask = new PreStartTask(ferryFoodOnlineMenu);
@@ -46,6 +44,12 @@ public class Main {
         return admins;
     }
 
+    public static ArrayList<OrderRange> setOrderRange() {
+        ArrayList<OrderRange> orderRanges = initializeFruitShopOrderRange();
+        orderRanges.addAll(initializeOrderRange());
+        return orderRanges;
+    }
+
     public static ArrayList<Restaurant> initializeRestaurant() {
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = new Restaurant(true, "akbarjooje", "tehran", new Menu());
@@ -59,6 +63,7 @@ public class Main {
         restaurant.setScore(12);
         restaurant.setOrders(new ArrayList<>());
         restaurant.setDeliverMEN(initializeDeliverMen());
+        restaurant.setRestaurantType(RestaurantType.MEDIUM);
         restaurants.add(restaurant);
         FerryFoodOnlineMenu.getServiceBuildings().add(restaurant);
         Restaurant restaurant1 = new Restaurant(true, "akbarjooje2", "karaj", new Menu());
@@ -71,6 +76,7 @@ public class Main {
         restaurant1.setScore(5);
         restaurant1.setOrders(new ArrayList<>());
         restaurant1.setDeliverMEN(initializeDeliverMen());
+        restaurant1.setRestaurantType(RestaurantType.ECONOMIC);
         restaurants.add(restaurant1);
         FerryFoodOnlineMenu.getServiceBuildings().add(restaurant1);
         return restaurants;
@@ -173,11 +179,12 @@ public class Main {
         superMarket.setWorkHours(wokTime);
         SuperMarket superMarket1 = new SuperMarket(true, "haji baba", "tehran");
         superMarket1.setWorkHours(wokTime);
+        superMarket.setComments(initializeComments()[0]);
         superMarket.setOrder(new ArrayList<>());
         superMarket1.setOrder(new ArrayList<>());
         superMarket.setShares(initializeShare());
         superMarket1.setShares(initializeShare());
-        superMarket.setComments(new ArrayList<>());
+//        superMarket.setComments(new ArrayList<>());
         superMarket1.setComments(new ArrayList<>());
         ArrayList<DeliverMan> deliverMEN = new ArrayList<>();
         DeliverMan steve = new DeliverMan("Motor", Salary.PER_HOUR, true, new ArrayList<>(), new ArrayList<>());
@@ -185,7 +192,7 @@ public class Main {
         deliverMEN.get(0).setCoverage(2);
         superMarket.setDeliverMEN(deliverMEN);
         superMarket1.setDeliverMEN(deliverMEN);
-        ArrayList<OrderRange> orderRange = initializeOrderRange(wokTime[0].getHour(), wokTime[1].getHour());
+        ArrayList<OrderRange> orderRange = initializeOrderRange();
         superMarket.setOrderRanges(orderRange);
         superMarket1.setOrderRanges(orderRange);
         superMarket.setMenu(new Menu(initializeStuffs()));
@@ -209,7 +216,7 @@ public class Main {
         return things;
     }
 
-    private static ArrayList<OrderRange> initializeOrderRange(int startTime, int endTime) {
+    private static ArrayList<OrderRange> initializeOrderRange() {
         ArrayList<OrderRange> orderRanges = new ArrayList<>();
         ArrayList<DeliverMan> deliverMEN = initializeDeliverMen();
         orderRanges.add(new OrderRange(9, 10, initializeDeliverMen(), 5000));
@@ -248,17 +255,10 @@ public class Main {
         }
     }
 
-//    public ArrayList<Manager> initializeManager() {
-//        return null;
-//    }
-
-//    public static ArrayList<Thing> castStuffToThing(ArrayList<Stuff> stuffs) {
-//        return new ArrayList<>(stuffs);
-//    }
 
     public static ArrayList<FruitShop> initializeFruitShop() {
         Time[] times = new Time[2];
-        times[0] = new Time(10);
+        times[0] = new Time(9);
         times[1] = new Time(22);
         ArrayList<OrderRange> orderRange = initializeFruitShopOrderRange();
         ArrayList<FruitShop> fruitShops = new ArrayList<>();
@@ -310,6 +310,21 @@ public class Main {
 
         menu.setFoods(fruits);
         return menu;
+    }
+
+    public static ArrayList<Manager> initializeManger() {
+        Manager manager = new Manager();
+        Manager manager1 = new Manager();
+        manager.setServiceBuilding(initializeFruitShop().get(0));
+        manager1.setServiceBuilding(initializeSuperMarkets().get(0));
+        manager.setPassWord("1111");
+        manager.setUserName("1111");
+        manager1.setPassWord("2222");
+        manager1.setUserName("2222");
+        ArrayList<Manager> managers = new ArrayList<>();
+        managers.add(manager);
+        managers.add(manager1);
+        return managers;
     }
 
 }

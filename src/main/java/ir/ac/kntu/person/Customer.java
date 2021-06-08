@@ -81,8 +81,8 @@ public class Customer extends User {
     }
 
     public void showDetails() {
-        System.out.println("Phone Number" + phoneNumber);
-        System.out.println("Address" + address);
+        System.out.println("Phone Number " + phoneNumber);
+        System.out.println("Address " + address);
         Main.print(orders.getThings());
     }
 }

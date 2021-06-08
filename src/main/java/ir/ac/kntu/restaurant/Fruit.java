@@ -1,4 +1,4 @@
-package ir.ac.kntu.retaurant;
+package ir.ac.kntu.restaurant;
 
 import ir.ac.kntu.Thing;
 

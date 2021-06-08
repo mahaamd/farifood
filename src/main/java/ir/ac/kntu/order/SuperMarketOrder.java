@@ -1,17 +1,9 @@
 package ir.ac.kntu.order;
 
-import ir.ac.kntu.Main;
-import ir.ac.kntu.ScannerWrapper;
-import ir.ac.kntu.Thing;
 import ir.ac.kntu.food.Order;
-import ir.ac.kntu.person.Customer;
-import ir.ac.kntu.retaurant.ServiceBuildingWrapper;
-import ir.ac.kntu.retaurant.SuperMarket;
 import ir.ac.kntu.stuffs.Stuff;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Locale;
 
 public class SuperMarketOrder extends Order{
     private ArrayList<Stuff> stuffs;
