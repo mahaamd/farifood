@@ -24,19 +24,6 @@ public class Customer extends User {
         this.share = share;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    //    public Customer(String userName, String passWord) {
-//        super(userName, passWord);
-//    }
-
-
     public Share getShare() {
         return share;
     }
@@ -47,8 +34,7 @@ public class Customer extends User {
         }
         orders = order;
     }
-
-
+    
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }

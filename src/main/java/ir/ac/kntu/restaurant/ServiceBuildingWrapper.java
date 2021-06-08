@@ -158,10 +158,13 @@ public class ServiceBuildingWrapper {
 
     public static OrderRange printOrderRange(ArrayList<OrderRange> orderRanges) {
         OrderRange orderRange = new OrderRange();
+        int i = 0;
         for (OrderRange o : orderRanges) {
+            System.out.println(i);
             if (o.getCurrentCapacity() < o.getMaximumCapacity()) {
                 System.out.print(o.getStart() + " " + o.getEnd() + " price-> " + o.getCost() + "\n");
             }
+            i++;
         }
         System.out.println("Select One");
         try {

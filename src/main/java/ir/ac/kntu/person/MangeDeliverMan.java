@@ -11,7 +11,7 @@ public class MangeDeliverMan {
 
     }
 
-    public static void printDeliverMen(ArrayList<DeliverMan> deliverMEN) {
+    public  void printDeliverMen(ArrayList<DeliverMan> deliverMEN) {
         for (int i = 0; i < deliverMEN.size(); i++) {
             System.out.println("DeliverMan " + i + " Is");
             System.out.println(deliverMEN.get(i));
@@ -31,9 +31,6 @@ public class MangeDeliverMan {
         System.out.println("Set Salary For DeliverMan : per hour Or per order");
         String salary = ScannerWrapper.getInstance().nextLine();
         deliverMan.setSalary(salary);
-//        System.out.println("Accessible Or In Accessible");
-//        String accessible = ScannerWrapper.getInstance().nextLine();
-//        deliverMan.setAccessible(accessible.toLowerCase(Locale.ROOT).equals("accessible"));
         deliverMan.setAccessible(true);
         deliverMan.setComments(new ArrayList<>());
 //        System.out.println("***************" + "addRestaurant" + "***************");

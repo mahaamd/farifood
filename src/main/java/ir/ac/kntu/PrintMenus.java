@@ -53,7 +53,8 @@ public class PrintMenus {
                 "Enter 3 For Manage restaurant");
         System.out.println("Enter 4: Manage Order Status");
         System.out.println("Enter 5: print Stores");
-        System.out.println("Enter 6: return");
+        System.out.println("6: Print DeliverMan");
+        System.out.println("Enter 7: return");
     }
 
     public void manageCustomerMenu() {

@@ -69,10 +69,6 @@ public class ServiceBuilding implements Comparable<ServiceBuilding> {
                 '}';
     }
 
-//    public ArrayList<String> getComments() {
-//        return comments;
-//    }
-
 
     public Menu getMenu() {
         return menu;
@@ -198,13 +194,7 @@ public class ServiceBuilding implements Comparable<ServiceBuilding> {
         return true;
     }
 
-    //    public<T> void editScore(T anonymous) {
-//        System.out.println("Current Score ==" + getScore());
-//        System.out.println("Enter New Score");
-//        int score = Integer.parseInt(ScannerWrapper.getInstance().nextLine());
-//        setScore(score);
-//    }
-//
+
     public void editName() {
         System.out.println("Enter new Name");
         setName(ScannerWrapper.getInstance().nextLine());

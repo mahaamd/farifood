@@ -10,15 +10,6 @@ public class FruitShopOrder extends Order {
         setThings(new ArrayList<>());
     }
 
-    //    private ArrayList<Fruit> fruits;
-
-//    public ArrayList<Fruit> getFruits() {
-//        return fruits;
-//    }
-//
-//    public void setFruits(ArrayList<Fruit> fruits) {
-//        this.fruits = fruits;
-//    }
 
     public Integer getMaximumAmountPerOrder() {
         return 12;

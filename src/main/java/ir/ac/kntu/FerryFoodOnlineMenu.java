@@ -107,6 +107,7 @@ public class FerryFoodOnlineMenu {
     }
 
     public void adminMenu(Admin admin) {
+        MangeDeliverMan mangeDeliverMan = new MangeDeliverMan();
         printMenus.printAdminMenu0();
         switch (ir.ac.kntu.ScannerWrapper.getInstance().nextInt()) {
             case 1:
@@ -125,6 +126,8 @@ public class FerryFoodOnlineMenu {
                 Main.print(FerryFoodOnlineMenu.getServiceBuildings());
                 break;
             case 6:
+                mangeDeliverMan.printDeliverMen(deliverMEN);
+            case 7:
                 return;
             default:
                 System.out.println("Watch your input");
@@ -150,7 +153,7 @@ public class FerryFoodOnlineMenu {
                 manageCustomer(customer);
                 break;
             case 4:
-                buySpecialShare(customer);//TODO: Complete this menu
+                buySpecialShare(customer);
                 break;
             case 5:
                 customersHelper.mostPopularOrderRanges(orderRanges);

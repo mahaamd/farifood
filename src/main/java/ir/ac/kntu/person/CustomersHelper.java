@@ -148,12 +148,6 @@ public class CustomersHelper {
         customers.add(customer);
     }
 
-    public void printCustomers(ArrayList<? extends User> customers) {
-        for (int i = 0; i < customers.size(); i++) {
-            System.out.println("Customer Number " + i + " Is");
-            System.out.println(customers.get(i));
-        }
-    }
 
     public void updateCustomer(Customer customer) {
         System.out.println("Enter New Phone number ");
@@ -179,12 +173,6 @@ public class CustomersHelper {
         return chooseWhatTodo;
     }
 
-    private User chooseCustomer(ArrayList<? extends User> customers) {
-        printCustomers(customers);
-        System.out.println("Choose One");
-        int choice = ScannerWrapper.getInstance().nextInt();
-        return customers.get(choice);
-    }
 
     public String buyFruit(Customer customer, ArrayList<FruitShop> fruitShops, ArrayList<Order>
             orders) {
@@ -295,8 +283,11 @@ public class CustomersHelper {
             String choice = ScannerWrapper.getInstance().nextLine();
             if (choice.equals("finished")) {
                 break;
+            } else if (choice.matches("[A-Za-z]+")) {
+                System.out.println("Wrong input");
+            } else {
+                stuffs1.add(stuffs.get(Integer.parseInt(choice)));
             }
-            stuffs1.add(stuffs.get(Integer.parseInt(choice)));
         }
         return stuffs1;
     }
